@@ -21,13 +21,13 @@
 
 */
 
-var Task = describe('Task', function () {
+
+var Board = describe('Board', function () {
     property('title', String);
     property('description', Text);
     property('createdAt', Date);
-    property('deadline', Date);
     property('active', Boolean, {default: true});
-    set('restPath', pathTo.tasks);
+    set('restPath', pathTo.boards);
 });
 
 var List = describe('List', function () {
@@ -38,11 +38,17 @@ var List = describe('List', function () {
     set('restPath', pathTo.lists);
 });
 
-var Board = describe('Board', function () {
+var Task = describe('Task', function () {
     property('title', String);
     property('description', Text);
     property('createdAt', Date);
+    property('deadline', Date);
     property('active', Boolean, {default: true});
-    set('restPath', pathTo.boards);
+    set('restPath', pathTo.tasks);
 });
+
+/* relations */
+Board.hasMany(List,   {as: 'lists'});
+List.hasMany(Task,   {as: 'tasks'});
+
 

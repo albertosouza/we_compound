@@ -11,6 +11,8 @@ action('new', function () {
 });
 
 action(function create() {
+	console.log(req.body.List);
+	
     List.create(req.body.List, function (err, list) {
         respondTo(function (format) {
             format.json(function () {

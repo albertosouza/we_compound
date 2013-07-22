@@ -1,7 +1,8 @@
 module.exports = 
   { "development":
-    { "driver":   "memory"
-    }
+	{ "driver":   "mongodb"
+	  , "url":      "mongodb://localhost/we_compound"
+	}
   , "test":
     { "driver":   "memory"
     }
