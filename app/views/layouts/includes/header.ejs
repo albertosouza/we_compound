@@ -1,0 +1,35 @@
+<header>
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/">We</a>
+      
+      <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><%- link_to('Boards', '/boards') %></li>
+      </ul>
+      
+
+            
+      <div class="dropdown pull-right">
+      
+        <p class="navbar-text"  dropdown-toggle data-toggle="dropdown" >
+          <a href="#" class="navbar-link" >Username</a>
+        </p>
+        <!-- Link or button to toggle dropdown -->
+        <ul class="dropdown-menu " role="menu" aria-labelledby="dLabel">
+          <li><a tabindex="-1" href="#">View account</a></li>
+          <li><a tabindex="-1" href="#">Edit account</a></li>
+          <li class="divider"></li>
+          <li><a tabindex="-1" href="#">Sing out</a></li>
+        </ul>
+    
+      </div>
+    </div>
+  </div>
+</div>
+
+                        
+</header>
