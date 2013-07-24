@@ -10,26 +10,31 @@
               <li><a href="#contact">Contact</a></li>
               <li><%- link_to('Boards', '/boards') %></li>
       </ul>
-      
-
-            
+     
       <div class="dropdown pull-right">
       
-        <p class="navbar-text"  dropdown-toggle data-toggle="dropdown" >
-          <a href="#" class="navbar-link" >Username</a>
-        </p>
+
+        <% if(isLogedIn()){ %>
+          <p class="navbar-text"  dropdown-toggle data-toggle="dropdown" >
+           
+            <a href="#" class="navbar-link" ><%= request.user.displayName %></a>
+          </p>
+        <% }else{ %>
+          <p class="navbar-text">
+            <a href="login" class="navbar-link" >Login</a>
+          </p>
+        <% } %>
+
         <!-- Link or button to toggle dropdown -->
         <ul class="dropdown-menu " role="menu" aria-labelledby="dLabel">
           <li><a tabindex="-1" href="#">View account</a></li>
           <li><a tabindex="-1" href="#">Edit account</a></li>
           <li class="divider"></li>
-          <li><a tabindex="-1" href="#">Sing out</a></li>
+          <li><a tabindex="-1" href="/logout">Sing out</a></li>
         </ul>
     
       </div>
     </div>
   </div>
-</div>
-
-                        
+</div>                    
 </header>

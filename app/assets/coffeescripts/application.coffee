@@ -4,4 +4,3 @@
 
 jQuery ->
   jQuery("#Board_createdAt").datepicker()
-

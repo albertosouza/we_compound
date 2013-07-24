@@ -51,4 +51,16 @@ var Task = describe('Task', function () {
 Board.hasMany(List,   {as: 'lists'});
 List.hasMany(Task,   {as: 'tasks'});
 
+var User = describe('User', function () {
+    property('displayName', String);
+    property('email', String, {required: true}, {index: true });
+    property('password', String);
+    property('bio', String);
+    property('googleId', String, {index: true} );
+    property('githubId', String, {index: true} );
+    property('linkedinId', String, {index: true} );
+    property('createdAt', Date);
+    property('activated', Boolean, {default: true} );
+    set('restPath', pathTo.users);
+});
 

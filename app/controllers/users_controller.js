@@ -1,35 +1,49 @@
 load('application');
 
-before(loadBoard, {
+before(loadUser, {
     only: ['show', 'edit', 'update', 'destroy']
 });
 
 action('new', function () {
-    this.title = 'New board';
-    this.board = new Board;
+    this.title = 'New user';
+    this.user = new User;
     render();
 });
 
+action('login', function () {
+    this.title = 'New user';
+    this.user = new User;
+    render();
+});
+
+
+action('logout', function () {
+    req.logout();
+    res.redirect('/');
+});
+
+
+
 action(function create() {
-    Board.create(req.body.Board, function (err, board) {
+    User.create(req.body.User, function (err, user) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
-                    send({code: 500, error: board && board.errors || err});
+                    send({code: 500, error: user && user.errors || err});
                 } else {
-                    send({code: 200, data: board.toObject()});
+                    send({code: 200, data: user.toObject()});
                 }
             });
             format.html(function () {
                 if (err) {
-                    flash('error', 'Board can not be created');
+                    flash('error', 'User can not be created');
                     render('new', {
-                        board: board,
-                        title: 'New board'
+                        user: user,
+                        title: 'New user'
                     });
                 } else {
-                    flash('info', 'Board created');
-                    redirect(path_to.boards);
+                    flash('info', 'User created');
+                    redirect(path_to.users);
                 }
             });
         });
@@ -37,25 +51,25 @@ action(function create() {
 });
 
 action(function index() {
-    this.title = 'Boards index';
-    Board.all(function (err, boards) {
+    this.title = 'Users index';
+    User.all(function (err, users) {
         switch (params.format) {
             case "json":
-                send({code: 200, data: boards});
+                send({code: 200, data: users});
                 break;
             default:
                 render({
-                    boards: boards
+                    users: users
                 });
         }
     });
 });
 
 action(function show() {
-    this.title = 'Board show';
+    this.title = 'User show';
     switch(params.format) {
         case "json":
-            send({code: 200, data: this.board});
+            send({code: 200, data: this.user});
             break;
         default:
             render();
@@ -63,10 +77,10 @@ action(function show() {
 });
 
 action(function edit() {
-    this.title = 'Board edit';
+    this.title = 'User edit';
     switch(params.format) {
         case "json":
-            send(this.board);
+            send(this.user);
             break;
         default:
             render();
@@ -74,23 +88,23 @@ action(function edit() {
 });
 
 action(function update() {
-    var board = this.board;
-    this.title = 'Edit board details';
-    this.board.updateAttributes(body.Board, function (err) {
+    var user = this.user;
+    this.title = 'Edit user details';
+    this.user.updateAttributes(body.User, function (err) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
-                    send({code: 500, error: board && board.errors || err});
+                    send({code: 500, error: user && user.errors || err});
                 } else {
-                    send({code: 200, data: board});
+                    send({code: 200, data: user});
                 }
             });
             format.html(function () {
                 if (!err) {
-                    flash('info', 'Board updated');
-                    redirect(path_to.board(board));
+                    flash('info', 'User updated');
+                    redirect(path_to.user(user));
                 } else {
-                    flash('error', 'Board can not be updated');
+                    flash('error', 'User can not be updated');
                     render('edit');
                 }
             });
@@ -99,7 +113,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.board.destroy(function (error) {
+    this.user.destroy(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {
@@ -110,25 +124,25 @@ action(function destroy() {
             });
             format.html(function () {
                 if (error) {
-                    flash('error', 'Can not destroy board');
+                    flash('error', 'Can not destroy user');
                 } else {
-                    flash('info', 'Board successfully removed');
+                    flash('info', 'User successfully removed');
                 }
-                send("'" + path_to.boards + "'");
+                send("'" + path_to.users + "'");
             });
         });
     });
 });
 
-function loadBoard() {
-    Board.find(params.id, function (err, board) {
-        if (err || !board) {
-            if (!err && !board && params.format === 'json') {
+function loadUser() {
+    User.find(params.id, function (err, user) {
+        if (err || !user) {
+            if (!err && !user && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});
             }
-            redirect(path_to.boards);
+            redirect(path_to.users);
         } else {
-            this.board = board;
+            this.user = user;
             next();
         }
     }.bind(this));
