@@ -26,10 +26,7 @@ module.exports = function (compound, User) {
             }, done);
         });
     } else
-    console.log('data do user');
-    console.log(data);
-    console.log('o user:');
-    console.log(User);
+
     /* GOOGLE OPENID */
     if (data.openId) {
         User.all({

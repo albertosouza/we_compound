@@ -7,7 +7,6 @@ exports.routes = function (map) {
     map.get('logout', 'users#logout');
     map.get('account', 'users#account', ensureAuthenticated);
 
-
     map.resources('boards');
 
     map.resources('lists');
