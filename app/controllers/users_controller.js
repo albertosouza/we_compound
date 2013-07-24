@@ -22,6 +22,17 @@ action('logout', function () {
     res.redirect('/');
 });
 
+action('account', function () {
+    this.user = req.user;
+    this.title = 'User show';
+    switch(params.format) {
+        case "json":
+            send({code: 200, data: this.user});
+            break;
+        default:
+            render();
+    }
+});
 
 
 action(function create() {
