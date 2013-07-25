@@ -1,6 +1,9 @@
 body {
   background: #fff;
 }
+.middle-container {
+  margin-top: 50px;
+}
 .board-area {
   height: 400px;
   background-color: #fff;

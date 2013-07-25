@@ -1,0 +1,41 @@
+<%- errorMessagesFor(user) %>
+<div class="control-group">
+   <%- form.label("displayName", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("displayName") %>
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("email", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("email") %>
+   </div>
+</div>
+
+<div class="control-group">
+   <%- form.label("username", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("username") %>
+   </div>
+</div>
+
+<div class="control-group">
+   <%- form.label("Old password", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("oldpassword", {type: 'password'}) %>
+   </div>
+</div>
+
+<div class="control-group">
+   <%- form.label("New password", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("password", {type: 'password'}) %>
+   </div>
+</div>
+<div class="control-group">
+   <%- form.label("bio", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.textarea("bio") %>
+   </div>
+</div>
+

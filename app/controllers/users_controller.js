@@ -17,6 +17,13 @@ action('login', function () {
 });
 
 
+action('signup', function () {
+    this.title = 'Sign up';
+    this.user = new User;
+    render();
+});
+
+
 action('logout', function () {
     req.logout();
     res.redirect('/');
@@ -34,12 +41,16 @@ action('account', function () {
     }
 });
 
-/**
- * Session
- */
-
-action(function session (req, res) {
-  res.redirect('/');
+action('accountSettings', function () {
+    this.user = req.user;
+    this.title = 'Account settings';
+    switch(params.format) {
+        case "json":
+            send(this.user);
+            break;
+        default:
+            render();
+    }
 });
 
 

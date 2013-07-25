@@ -1,8 +1,9 @@
 module.exports = function (compound) {
  
     var express = require('express'),
-        mongoStore = require('connect-mongo')(express);
-   var flash = require('connect-flash');
+    
+    mongoStore = require('connect-mongo')(express);
+    var flash = require('connect-flash');
 
     var app = compound.app;
 
@@ -16,13 +17,13 @@ module.exports = function (compound) {
         app.use(express.cookieParser('secret'));
         // express/mongo session storage
         app.use(express.session({
-          secret: 'secret',
-          store: new mongoStore({
-            url: 'mongodb://localhost/we_compound',
-            collection : 'sessions'
-          })
+            secret: 'secret',
+            store: new mongoStore({
+                url: 'mongodb://localhost/we_compound',
+                collection : 'sessions'
+            })
         }));
-        app.use(express.methodOverride());     
+        app.use(express.methodOverride());   
         app.use(app.router);
     });
 

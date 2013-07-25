@@ -6,9 +6,10 @@ exports.routes = function (map) {
     // users
     map.resources('users');
     map.get('login', 'users#login');
-    map.get('signup', 'users#new');
+    map.get('signup', 'users#signup');
     map.get('logout', 'users#logout');
     map.get('account', 'users#account', ensureAuthenticated);
+    map.get('settings/account', 'users#accountSettings', ensureAuthenticated);
 
     map.resources('boards');
 

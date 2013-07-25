@@ -1,0 +1,46 @@
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li class="active"><a href="#"><%= title %></a></li>
+</ul>
+
+<div class=""><div class="row">
+    <div class="span6">
+
+
+        <div class="page-header">
+            <h1><%= title %></h1>
+        </div>
+
+        <% var form = formFor(user, {action: pathTo.users(), method: 'POST', id: "user-form", class: 'form-horizontal'}) %>
+        <%- form.begin() %>
+        <%- include _signup_form %>
+        <div class="form-actions">
+            <%- form.submit('<i class="icon-ok icon-white"></i> Register', {class: 'btn btn-primary'}) %> or
+            <%- linkTo('Cancel', '/', {class: 'btn'}) %>
+        </div>
+        <%- form.end() %>
+    </div>
+
+
+
+    <div class="offset1 span5">
+        <div class="page-header">
+            <h2>Or register with:</h2>
+        </div> 
+
+        <a href="/auth/facebook">
+            <img src="/images/icons/facebook.png">
+        </a>
+        <a href="/auth/github">
+            <img src="/images/icons/github.png">
+        </a>
+        <a href="/auth/twitter">
+            <img src="/images/icons/twitter.png">
+        </a>
+        <a href="/auth/google">
+            <img src="/images/icons/google.png">
+        </a>
+    </div>
+
+
+</div></div>

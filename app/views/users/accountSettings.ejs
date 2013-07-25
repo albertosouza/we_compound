@@ -1,0 +1,19 @@
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="<%- pathTo.account() %>">account</a> <span class="divider">/</span></li>
+    <li class="active"><a href="#"><%= title %></a></li>
+</ul>
+
+<div class="page-header">
+    <h1><%= title %></h1>
+</div>
+
+<% var form = formFor(user, {action: pathTo.user(user), method: 'PUT', id: "user-form", class: 'form-horizontal'}) %>
+<%- form.begin() %>
+<%- include _account_settings_form %>
+<div class="form-actions">
+    <%- form.submit('<i class="icon-ok icon-white"></i> Update user', {class: 'btn btn-primary'}) %> or
+    <%- linkTo('Cancel', pathTo.user(user), {class: 'btn'}) %>
+</div>
+<%- form.end() %>
+ 

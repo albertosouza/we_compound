@@ -4,6 +4,7 @@ var app, compound
 
 function UserStub () {
     return {
+        username: '',
         displayName: '',
         email: '',
         password: '',
