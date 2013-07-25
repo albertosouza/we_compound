@@ -1,5 +1,8 @@
 exports.routes = function (map) {
 
+    var passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+
     // users
     map.resources('users');
     map.get('login', 'users#login');

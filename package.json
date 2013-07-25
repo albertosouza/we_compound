@@ -13,7 +13,7 @@
   , "stylus": "latest"
   , "seedjs": "latest"
   , "co-assets-compiler": "*"
-  , "compound-passport": ">= 0.0.7-3"
+  , "compound-passport": "0.0.7-3"
   , "passport": ">= 0.1.17 "
   , "passport-local": ">= 0.1.6"
   , "passport-local-mongoose": ">= 0.2.4"
@@ -24,7 +24,9 @@
   , "passport-facebook": ">= 0.1.5"
   , "mongodb": "latest"
   , "connect-mongo" : "latest"
+  , "connect-flash" : "latest"
   , "mongoose" : "latest"
+  , "bcrypt" : "latest"
   },
   "devDependencies":
   { "nodeunit": "*"

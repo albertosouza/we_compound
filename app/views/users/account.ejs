@@ -1,11 +1,10 @@
 <ul class="breadcrumb">
     <li><a href="/">Home</a> <span class="divider">/</span></li>
-    <li><a href="<%- pathTo.users %>">users</a> <span class="divider">/</span></li>
-    <li class="active"><a href="#">Details of user</a></li>
+    <li class="active"><a href="#">User account</a></li>
 </ul>
 
 <div class="page-header">
-    <h1>Details of user</h1>
+    <h1>User account</h1>
 </div>
 
 <table class="table table-bordered">
@@ -17,12 +16,6 @@
         <tr><th>password</th><td><%= user.password %></td></tr>
 
         <tr><th>bio</th><td><%= user.bio %></td></tr>
-
-        <tr><th>googleId</th><td><%= user.googleId %></td></tr>
-
-        <tr><th>githubId</th><td><%= user.githubId %></td></tr>
-
-        <tr><th>linkedinId</th><td><%= user.linkedinId %></td></tr>
 
         <tr><th>createdAt</th><td><%= user.createdAt %></td></tr>
 

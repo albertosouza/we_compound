@@ -34,9 +34,18 @@ action('account', function () {
     }
 });
 
+/**
+ * Session
+ */
+
+action(function session (req, res) {
+  res.redirect('/');
+});
+
 
 action(function create() {
     User.create(req.body.User, function (err, user) {
+        user.provider = 'local';
         respondTo(function (format) {
             format.json(function () {
                 if (err) {

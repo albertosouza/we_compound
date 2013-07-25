@@ -5,25 +5,35 @@
 
 <div class=""><div class="row">
     <div class="span6">
-        <form action="/login" method="post" class="signin form-horizontal ng-pristine ng-valid">
-            <p class="error">
-            </p>
-            <div class="control-group">
-                <label for="email" class="control-label">Email</label>
-                <div class="controls">
-                    <input id="email" type="text" name="email" placeholder="Email">
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="password" class="control-label">Password</label>
-                <div class="controls">
-                    <input id="password" type="password" name="password" placeholder="Password">
-                </div>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Sign in</button>&nbsp;or&nbsp;<a href="/signup" class="show-signup">Sign up</a>
-            </div>
-        </form>
+    <p class="error">
+    </p>
+
+
+    <%- formTagBegin({ action: '/login' }) %>
+
+    <div class="control-group">
+        <%- labelTag('Email', { name: 'email'}) %>
+        <%- inputTag({id: 'email',type: 'text', name: 'email', placeholder: 'Email'}) %>
+    </div> 
+
+    <div class="control-group">
+        <%- labelTag('Password', { name: 'password'}) %>
+        <%- inputTag({id: 'password', name: 'password' ,type: 'password', placeholder: 'Password'}) %>
+    </div>
+    
+    <div class="form-actions">
+
+        <%- buttonTag('Login',{type:'submit', class: 'btn btn-primary'}) %>
+
+        &nbsp; or &nbsp;
+
+        <a href="/signup" class="show-signup">Sign up</a>
+
+    </div>
+
+    <%- formTagEnd() %>
+
+
     </div>
 
     <div class="offset1 span5">

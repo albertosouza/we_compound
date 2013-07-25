@@ -52,6 +52,7 @@ Board.hasMany(List,   {as: 'lists'});
 List.hasMany(Task,   {as: 'tasks'});
 
 var User = describe('User', function () {
+    property('username', String);
     property('displayName', String);
     property('email', String, {required: true}, {index: true });
     property('password', String);
