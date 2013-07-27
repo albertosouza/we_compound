@@ -3,14 +3,14 @@
     <head>
         <title><%= title %></title>
         <%- stylesheetLinkTag('bootstrap', 'application', 'bootstrap-responsive', 'jquery-ui-bootstrap/jquery-ui-1.10.0.custom') %>
-        <%- javascriptIncludeTag('http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js', 'bootstrap', 'rails', 'application', 'jquery-ui.custom.min', 'angular.min') %>
+        <%- javascriptIncludeTag('jquery.min', 'bootstrap', 'rails', 'application', 'jquery-ui.custom.min', 'angular.min') %>
         <%- csrfMetaTag() %>
         <meta charset="utf8">
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
     </head>
     <body>
-    
-       <% include includes/header.ejs %> 
+
+       <% include includes/header.ejs %>
 
         <div class="middle-container container">
             <% var flash = request.flash('info').pop(); if (flash) { %>
@@ -32,7 +32,7 @@
             <hr />
 
         </div>
-        <% include includes/footer.ejs %>        
+        <% include includes/footer.ejs %>
     </body>
 </html>
 <%- contentFor('javascripts') %>
