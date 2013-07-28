@@ -1,14 +1,14 @@
 module.exports = function (compound) {
- 
+
     var express = require('express'),
-    
+
     mongoStore = require('connect-mongo')(express);
     var flash = require('connect-flash');
 
     var app = compound.app;
 
     app.configure(function(){
-        app.use(flash());     
+        app.use(flash());
         app.use(express.static(app.root + '/public', { maxAge: 86400000 }));
         app.set('jsDirectory', '/javascripts/');
         app.set('cssDirectory', '/stylesheets/');
@@ -20,10 +20,11 @@ module.exports = function (compound) {
             secret: 'secret',
             store: new mongoStore({
                 url: 'mongodb://localhost/we_compound',
-                collection : 'sessions'
+                collection : 'sessions',
+                auto_reconnect: true
             })
         }));
-        app.use(express.methodOverride());   
+        app.use(express.methodOverride());
         app.use(app.router);
     });
 

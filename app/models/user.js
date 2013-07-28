@@ -9,32 +9,95 @@ module.exports = function (compound, User) {
     };
 
     User.beforeSave = function(next, data) {
-        console.log(this);
         var user = this;
-        // only hash the password if it has been modified (or is new)
-        //if (!user.isModified('password')) return next();
 
-        // generate a salt
-        bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-            if (err) return next(err);
+        user.passwordIsModified(
+            function (){
+                // generate a salt
+                bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+                    if (err) return next(err);
 
-            // hash the password along with our new salt
-            bcrypt.hash(user.password, salt, function(err, hash) {
-                if (err)  return next(err);
+                    // hash the password along with our new salt
+                    bcrypt.hash(data.password, salt, function(err, hash) {
+                        if (err)  return next(err);
 
-                // override the cleartext password with the hashed one
-                data.password = hash;
-                next();
-            });
-        });
-        next();
+                        // override the cleartext password with the hashed one
+                        data.password = hash;
+
+                        return next();
+                    });
+                });
+
+            },
+            function (){
+                return next();
+            }
+
+
+        );
+
+
     };
 
-  // verify user password
-  User.verifyPassword = function (password, hash) {
-    var isMatch = bcrypt.compareSync(password, hash);
-    return isMatch;
-  };
+    // get user by email
+    User.getUserByEmail = function (email){
+        if (email) {
+            User.all({
+                where: {
+                    email: email
+                }, limit: 1
+            }, function (err, user) {
+                console.log(user);
+                if (user[0]) return user[0];
+                if (!user[0]) return false;
+            });
+        } else {
+            return false;
+        }
+
+    };
+
+    // verify user password
+    User.verifyPassword = function (password, hash) {
+        var isMatch = bcrypt.compareSync(password, hash);
+        return isMatch;
+    };
+
+    // @TODO needs more work in this test
+    User.prototype.passwordIsModified = function (nextIsModified, nextIsSame) {
+        var newUser = this;
+
+        User.all({
+            where: {
+                email: newUser.email
+            }, limit: 1
+        }, function (err, user) {
+
+            // if user is new
+            if(!user[0])  nextIsModified();
+
+            // if is update
+            if( user[0].password != newUser.password  ){
+                nextIsModified();
+            }else{
+                nextIsSame();
+            }
+        });
+
+    };
+
+    User.changePassword = function(user, oldPassword, newPassword, next){
+
+        user.updateAttribute( 'password', newPassword , function (err) {
+            console.log('travo');
+            if (!err) {
+                next();
+            } else {
+                next(err);
+            }
+        });
+
+    };
 
   User.findOrCreate = function (data, done) {
 

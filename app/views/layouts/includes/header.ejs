@@ -23,7 +23,7 @@
             <!-- Link or button to toggle dropdown -->
             <ul class="dropdown-menu " role="menu" aria-labelledby="dLabel">
               <li><a tabindex="-1" href="/account">View account</a></li>
-              <li><%- linkTo('Edit account', pathTo.settings_account(),  { tabindex: '-1'}) %></li>
+              <li><%- linkTo('Edit account', pathTo.account_settings(),  { tabindex: '-1'}) %></li>
               <li class="divider"></li>
               <li><%- linkTo('Sing out', pathTo.logout(),  { tabindex: '-1'}) %></li>
             </ul>
@@ -32,8 +32,8 @@
         <% }else{ %>
           
             <%- linkTo('Login', pathTo.login(),  {class: 'btn btn-success'}) %> 
-            <%- linkTo('Signup', pathTo.signup(),  {class: 'btn btn-primary '}) %>              
-          
+            <%- linkTo('Signup', pathTo.signup(),  {class: 'btn btn-primary '}) %>
+
         <% } %>
 
     

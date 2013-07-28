@@ -43,6 +43,10 @@ action('account', function () {
 
 action('accountSettings', function () {
     this.user = req.user;
+    this.passwords = {};
+
+    console.log(path_to.account_settings());
+
     this.title = 'Account settings';
     switch(params.format) {
         case "json":
@@ -53,6 +57,78 @@ action('accountSettings', function () {
     }
 });
 
+// TODO need to implement a better password validation
+action('changePassword', function () {
+
+    var err = false;
+    var user = req.user;
+
+    if(req.body.confirmpassword == req.body.password){
+        if(req.body.oldpassword){
+            var oldPassword = req.body.oldpassword;
+
+            // check if old password is correct
+            if (!User.verifyPassword(oldPassword, user.password) ){
+                err = "<strong>Old password</strong> is wrong";
+            }
+
+        } else {
+            err = "<strong>Old password</strong> isn't valid";
+        }
+
+        if(req.body.password){
+            var newPassword = req.body.password;
+
+        } else {
+            err = "<strong>New password</strong> isn't valid";
+        }
+
+        if(!req.body.confirmpassword){
+            err = "The field <strong>Confirm new password</strong> is required";
+        }
+
+    }else{
+        err = "<strong>New password</strong> and <strong>Confirm new password</strong> are different";
+    }
+
+    if(!err){
+
+        User.changePassword(user ,oldPassword ,newPassword ,function(err){
+            respondTo(function (format) {
+                format.json(function () {
+                    if (err) {
+                        send({code: 500, error: user && user.errors || err});
+                    } else {
+                        send({code: 200, data: user});
+                    }
+                });
+                format.html(function () {
+                    if (!err) {
+                        flash('info', 'Password updated');
+                        redirect(path_to.account_settings());
+                    } else {
+                        flash('error', 'Password can not be updated');
+                        render('edit');
+                    }
+                });
+            });
+        });
+
+    } else {
+        flash('error', err);
+        redirect(path_to.account_settings());
+        /*
+        render('accountSettings', {
+            user: user,
+            passwords: {
+            },
+            title: 'New user'
+        });
+*/
+    }
+
+
+});
 
 action(function create() {
     User.create(req.body.User, function (err, user) {
@@ -120,6 +196,7 @@ action(function edit() {
 
 action(function update() {
     var user = this.user;
+    console.log('no update');
     this.title = 'Edit user details';
     this.user.updateAttributes(body.User, function (err) {
         respondTo(function (format) {
