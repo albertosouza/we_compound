@@ -3,20 +3,19 @@
   <div class="navbar-inner">
     <div class="container">
       <a class="brand" href="/">We</a>
-      
+
       <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
               <li><%- link_to('Boards', '/boards') %></li>
       </ul>
-     
+
       <div class="dropdown pull-right">
-      
 
         <% if(isLogedIn()){ %>
           <div class="btn-group">
-           
+
             <a href="#" class="btn dropdown-toggle" data-toggle="dropdown"  ><%= request.user.displayName %> <span class="caret"></span></a>
 
 
@@ -30,15 +29,15 @@
 
           </div>
         <% }else{ %>
-          
-            <%- linkTo('Login', pathTo.login(),  {class: 'btn btn-success'}) %> 
+
+            <%- linkTo('Login', pathTo.login(),  {class: 'btn btn-success'}) %>
             <%- linkTo('Signup', pathTo.signup(),  {class: 'btn btn-primary '}) %>
 
         <% } %>
 
-    
+
       </div>
     </div>
   </div>
-</div>                    
+</div>
 </header>

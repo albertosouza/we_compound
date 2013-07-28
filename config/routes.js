@@ -1,4 +1,6 @@
 exports.routes = function (map) {
+    map.resources('images');
+
 
     var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;

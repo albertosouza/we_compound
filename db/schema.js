@@ -47,9 +47,10 @@ var Task = describe('Task', function () {
     set('restPath', pathTo.tasks);
 });
 
-/* relations */
+// Board relations
 Board.hasMany(List,   {as: 'lists'});
 List.hasMany(Task,   {as: 'tasks'});
+
 
 var User = describe('User', function () {
     property('username', String);
@@ -65,3 +66,14 @@ var User = describe('User', function () {
     set('restPath', pathTo.users);
 });
 
+var Image = describe('Image', function () {
+    property('name', String);
+    property('description', "Schema.text");
+    property('fileName', String);
+    property('type', String);
+    property('length', Number);
+    property('systemName', String);
+    property('mime', String);
+    property('uploadDate', Date);
+    set('restPath', pathTo.images);
+});

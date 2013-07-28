@@ -1,0 +1,18 @@
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="<%- pathTo.images() %>">images</a> <span class="divider">/</span></li>
+    <li class="active"><a href="#">Edit image</a></li>
+</ul>
+
+<div class="page-header">
+    <h1>Edit image</h1>
+</div>
+
+<% var form = formFor(image, {action: pathTo.image(image), method: 'PUT', id: "image-form", class: 'form-horizontal'}) %>
+<%- form.begin() %>
+<%- include _form %>
+<div class="form-actions">
+    <%- form.submit('<i class="icon-ok icon-white"></i> Update image', {class: 'btn btn-primary'}) %> or
+    <%- linkTo('Cancel', pathTo.image(image), {class: 'btn'}) %>
+</div>
+<%- form.end() %>
