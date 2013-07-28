@@ -4,27 +4,26 @@ var app, compound
 
 function UserStub () {
     return {
-        username: '',
-        displayName: '',
-        email: '',
-        password: '',
-        bio: '',
+        username: 'afro',
+        displayName: 'Alberto Souza',
+        email: 'afro@test.com',
+        password: '123456',
+        bio: 'Afro developper',
         googleId: '',
         githubId: '',
         linkedinId: '',
-        createdAt: '',
-        activated: ''
+        createdAt: new Date(),
+        activated: true
     };
 }
 
 describe('UserController', function() {
     beforeEach(function(done) {
-        app = getApp();
-        compound = app.compound;
-        compound.on('ready', function() {
-            done();
-        });
+        app = require('../helpers.js').prepApp(done);
+
+
     });
+
 
     /*
      * GET /users/new
@@ -128,6 +127,7 @@ describe('UserController', function() {
      * POST /users
      * Should fail when User is invalid
      */
+
     it('should fail on POST /users when User#create returns an error', function (done) {
         var User = app.models.User
         , user = new UserStub;
@@ -143,7 +143,7 @@ describe('UserController', function() {
         .end(function (err, res) {
             res.statusCode.should.equal(200);
             User.create.calledWith(user).should.be.true;
-
+            console.log(err);
             app.didFlash('error').should.be.true;
 
             done();
@@ -203,6 +203,45 @@ describe('UserController', function() {
             done();
         });
     });
+
+    /*
+     * PUT /account/settings/password
+     * Should redirect back to /users when User is valid
+     */
+    it('should redirect on PUT /account/settings/password with an invalid password', function (done) {
+        var User = app.models.User,
+        user = new UserStub;
+/*
+        User.find = sinon.spy(function (id, callback) {
+            callback(null, {
+                id: 1,
+                updateAttributes: function (data, cb) { cb(null) }
+            });
+        });
+    */
+
+        // do the test
+        request(app)
+        .put('/account/settings/password')
+        .send({
+            oldpassword: '111',
+            password: '',
+            confirmpassword: ''
+        })
+        .end(function (err, res) {
+
+
+            res.statusCode.should.equal(302);
+
+            res.header['location'].should.include('/account/settings');
+
+            app.didFlash('error').should.be.false;
+
+            done();
+        });
+    });
+
+
 
     /*
      * DELETE /users/:id
