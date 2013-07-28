@@ -1,4 +1,3 @@
-
 module.exports = {
     prepApp: function (done) {
         var app = getApp();
