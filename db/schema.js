@@ -77,3 +77,11 @@ var Image = describe('Image', function () {
     property('uploadDate', Date);
     set('restPath', pathTo.images);
 });
+
+var Gallery = describe('Gallery', function () {
+    property('name', String);
+    property('description', Text);
+    property('createdAt', Date);
+    set('restPath', pathTo.galleries);
+});
+

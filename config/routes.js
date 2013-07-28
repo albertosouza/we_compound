@@ -1,4 +1,6 @@
 exports.routes = function (map) {
+    map.resources('galleries');
+
     map.resources('images');
 
 

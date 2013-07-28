@@ -1,0 +1,18 @@
+<ul class="breadcrumb">
+    <li><a href="/">Home</a> <span class="divider">/</span></li>
+    <li><a href="<%- pathTo.galleries() %>">galleries</a> <span class="divider">/</span></li>
+    <li class="active"><a href="#">Edit gallery</a></li>
+</ul>
+
+<div class="page-header">
+    <h1>Edit gallery</h1>
+</div>
+
+<% var form = formFor(gallery, {action: pathTo.gallery(gallery), method: 'PUT', id: "gallery-form", class: 'form-horizontal'}) %>
+<%- form.begin() %>
+<%- include _form %>
+<div class="form-actions">
+    <%- form.submit('<i class="icon-ok icon-white"></i> Update gallery', {class: 'btn btn-primary'}) %> or
+    <%- linkTo('Cancel', pathTo.gallery(gallery), {class: 'btn'}) %>
+</div>
+<%- form.end() %>
