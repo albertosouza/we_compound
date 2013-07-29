@@ -8,7 +8,7 @@
   , "express": "~3.x"
   , "compound": ">= 1.1.0"
   , "jugglingdb": ">= 0.1.0"
-  , "jugglingdb-mongodb": "latest"	  
+  , "jugglingdb-mongodb": "latest"
   , "coffee-script": ">= 1.1.1"
   , "stylus": "latest"
   , "seedjs": "latest"
@@ -23,10 +23,11 @@
   , "passport-twitter": ">= 0.1.5"
   , "passport-facebook": ">= 0.1.5"
   , "mongodb": "latest"
-  , "connect-mongo" : "latest"
+  , "connect-mongo" : "0.3.3"
   , "connect-flash" : "latest"
   , "mongoose" : "latest"
   , "bcrypt" : "latest"
+  , "mv" : "latest"
   },
   "devDependencies":
   { "nodeunit": "*"
