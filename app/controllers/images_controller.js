@@ -11,29 +11,59 @@ action('new', function () {
 });
 
 action(function create() {
-    Image.create(req.body.Image, function (err, image) {
-        respondTo(function (format) {
-            format.json(function () {
-                if (err) {
-                    send({code: 500, error: image && image.errors || err});
-                } else {
-                    send({code: 200, data: image.toObject()});
-                }
-            });
-            format.html(function () {
-                if (err) {
-                    flash('error', 'Image can not be created');
-                    render('new', {
-                        image: image,
-                        title: 'New image'
-                    });
-                } else {
-                    flash('info', 'Image created');
-                    redirect(path_to.images);
-                }
+    // handle file upload
+    this.image = new Image();
+    var tmpFile = req.files.Image.file;
+
+    this.image.upload(tmpFile.name, tmpFile.path, function (err) {
+        if (err) {
+            console.log(err);
+            this.title = 'New file';
+            flash('error', 'File can not be created');
+            return render('new');
+        } else {
+            flash('info', 'File created');
+        }
+
+        if(!req.body.Image.name){
+            req.body.Image.name = tmpFile.name;
+        }
+
+        // TODO need a better systemName for don't delete old files and better security
+        req.body.Image.systemName =  tmpFile.name;
+
+        // salve old file data
+        req.body.Image.fileName = tmpFile.name;
+        req.body.Image.mime = tmpFile.type;
+        //req.body.Image.length =
+
+        // now create
+        Image.create(req.body.Image, function (err, image) {
+            respondTo(function (format) {
+                format.json(function () {
+                    if (err) {
+                        send({code: 500, error: image && image.errors || err});
+                    } else {
+                        send({code: 200, data: image.toObject()});
+                    }
+                });
+                format.html(function () {
+                    if (err) {
+                        flash('error', 'Image can not be created');
+                        render('new', {
+                            image: image,
+                            title: 'New image'
+                        });
+                    } else {
+                        flash('info', 'Image created');
+                        redirect(path_to.images);
+                    }
+                });
             });
         });
-    });
+
+    }.bind(this));
+
 });
 
 action(function index() {

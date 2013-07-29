@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Name</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                 <% galleries.forEach(function (gallery) { %>
                 <tr>
                     <td><strong><%- link_to('gallery #' + gallery.id, pathTo.gallery(gallery)) %></strong></td>
+                    <td><strong><%- link_to( gallery.name, pathTo.gallery(gallery)) %></strong></td>
                     <td>
                         <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_gallery(gallery), {class: 'btn btn-mini'}) %>
                         <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.gallery(gallery), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>

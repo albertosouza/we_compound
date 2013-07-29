@@ -8,7 +8,7 @@
     <h1>New image</h1>
 </div>
 
-<% var form = formFor(image, {action: pathTo.images(), method: 'POST', id: "image-form", class: 'form-horizontal'}) %>
+<% var form = formFor(image, {action: pathTo.images(), method: 'POST', id: "image-form", class: 'form-horizontal', enctype: 'multipart/form-data' }) %>
 <%- form.begin() %>
 <%- include _form %>
 <div class="form-actions">

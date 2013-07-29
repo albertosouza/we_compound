@@ -21,7 +21,6 @@
 
 */
 
-
 var Board = describe('Board', function () {
     property('title', String);
     property('description', Text);
@@ -49,8 +48,10 @@ var Task = describe('Task', function () {
 
 // Board relations
 Board.hasMany(List,   {as: 'lists'});
-List.hasMany(Task,   {as: 'tasks'});
+List.belongsTo(Board, {as: 'board'});
 
+List.hasMany(Task,   {as: 'tasks'});
+Task.belongsTo(List, {as: 'list'});
 
 var User = describe('User', function () {
     property('username', String);
@@ -66,9 +67,16 @@ var User = describe('User', function () {
     set('restPath', pathTo.users);
 });
 
+var Gallery = describe('Gallery', function () {
+    property('name', String);
+    property('description', Text);
+    property('createdAt', Date);
+    set('restPath', pathTo.galleries);
+});
+
 var Image = describe('Image', function () {
     property('name', String);
-    property('description', "Schema.text");
+    property('description', String);
     property('fileName', String);
     property('type', String);
     property('length', Number);
@@ -78,10 +86,9 @@ var Image = describe('Image', function () {
     set('restPath', pathTo.images);
 });
 
-var Gallery = describe('Gallery', function () {
-    property('name', String);
-    property('description', Text);
-    property('createdAt', Date);
-    set('restPath', pathTo.galleries);
-});
+Gallery.hasMany(Image,   {as: 'images'});
+
+Image.belongsTo(User,   {as: 'lists'});
+
+User.hasMany(Image,   {as: 'avatar'});
 

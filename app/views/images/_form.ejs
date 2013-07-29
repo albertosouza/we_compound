@@ -1,4 +1,13 @@
 <%- errorMessagesFor(image) %>
+
+<div class="control-group">
+   <%- form.label("Image", false, {class: "control-label"}) %>
+   <div class="controls">
+       <%- form.input("file", {type: 'file'}) %>
+   </div>
+</div>
+
+
 <div class="control-group">
    <%- form.label("name", false, {class: "control-label"}) %>
    <div class="controls">
@@ -29,21 +38,4 @@
        <%- form.input("length") %>
    </div>
 </div>
-<div class="control-group">
-   <%- form.label("systemName", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("systemName") %>
-   </div>
-</div>
-<div class="control-group">
-   <%- form.label("mime", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("mime") %>
-   </div>
-</div>
-<div class="control-group">
-   <%- form.label("uploadDate", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("uploadDate") %>
-   </div>
-</div>
+

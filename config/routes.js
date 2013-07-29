@@ -1,9 +1,4 @@
 exports.routes = function (map) {
-    map.resources('galleries');
-
-    map.resources('images');
-
-
     var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 
@@ -17,13 +12,20 @@ exports.routes = function (map) {
 
     map.put('account/settings/password', 'users#changePassword', ensureAuthenticated);
 
+    // board services routes
     map.resources('boards');
 
     map.resources('lists');
 
     map.resources('tasks');
 
-    // Generic routes. Add all your routes below this line
+    //galleries routes
+    map.resources('galleries');
+    map.resources('images');
+
+    //map.post('galleries/images/new', 'galleries#newImage');
+
+    // root or home route
     map.root('boards#index');
 
     // feel free to remove generic routes
