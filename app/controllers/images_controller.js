@@ -29,13 +29,15 @@ action(function create() {
             req.body.Image.name = tmpFile.name;
         }
 
+        console.log(tmpFile);
+
         // TODO need a better systemName for don't delete old files and better security
         req.body.Image.systemName =  tmpFile.name;
 
         // salve old file data
         req.body.Image.fileName = tmpFile.name;
-        req.body.Image.mime = tmpFile.type;
-        //req.body.Image.length =
+        req.body.Image.type = tmpFile.type;
+        req.body.Image.size = tmpFile.type;
 
         // now create
         Image.create(req.body.Image, function (err, image) {

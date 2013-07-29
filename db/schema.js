@@ -80,15 +80,16 @@ var Image = describe('Image', function () {
     property('fileName', String);
     property('type', String);
     property('length', Number);
+    property('width', Number);
+    property('height', Number);
     property('systemName', String);
-    property('mime', String);
     property('uploadDate', Date);
     set('restPath', pathTo.images);
 });
 
 Gallery.hasMany(Image,   {as: 'images'});
 
-Image.belongsTo(User,   {as: 'lists'});
+Image.belongsTo(User,   {as: 'creator'});
 
 User.hasMany(Image,   {as: 'avatar'});
 
