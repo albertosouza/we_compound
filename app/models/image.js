@@ -7,6 +7,8 @@ module.exports = function (compound, Image) {
     // The directory to upload Images too.
     Image.directory = compound.root + '/public/media/galleries/images';
 
+    Image.src = compound.root + '/public/media/galleries/images';
+
     Image.beforeCreate = function(next, data) {
 
         // set created date

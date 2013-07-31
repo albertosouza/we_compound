@@ -16,25 +16,23 @@
 <div class="row">
     <div class="span12">
         <% if (images.length > 0) { %>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% images.forEach(function (image) { %>
-                <tr>
-                    <td><strong><%- link_to('image #' + image.id, pathTo.image(image)) %></strong></td>
-                    <td>
-                        <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_image(image), {class: 'btn btn-mini'}) %>
-                        <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.image(image), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
-                    </td>
-                </tr>
-                <% }); %>
-            </tbody>
-        </table>
+
+            <% images.forEach(function (image) { %>
+            <div class="image span3">
+                <div class="image-header">
+                    123
+                </div>
+                <div class="image">
+
+                    <%- link_to('<img src="' + image.src() + '">', pathTo.image(image)) %>
+                </div>
+                <div>
+                    <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_image(image), {class: 'btn btn-mini'}) %>
+                    <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.image(image), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+                </div>
+            </div>
+            <% }); %>
+
         <% } else { %>
         <p class="alert alert-block alert-info">
             <strong>No images were found.</strong>

@@ -15,6 +15,7 @@ action(function create() {
     this.image = new Image();
     var tmpFile = req.files.Image.file;
 
+    // upload
     this.image.upload(tmpFile.name, tmpFile.path, function (err) {
         if (err) {
             console.log(err);
@@ -25,22 +26,23 @@ action(function create() {
             flash('info', 'File created');
         }
 
-        if(!req.body.Image.name){
-            req.body.Image.name = tmpFile.name;
+        // set image vars
+        this.image.systemName = tmpFile.name;
+        this.image.fileName = tmpFile.name;
+        this.image.type = tmpFile.type;
+        this.image.size = tmpFile.type;
+
+        //set field name as tmp file name if user dont specify
+        if(!this.image.name){
+            this.image.name = tmpFile.name;
         }
 
-        console.log(tmpFile);
-
-        // TODO need a better systemName for don't delete old files and better security
-        req.body.Image.systemName =  tmpFile.name;
-
-        // salve old file data
-        req.body.Image.fileName = tmpFile.name;
-        req.body.Image.type = tmpFile.type;
-        req.body.Image.size = tmpFile.type;
+        // set creator id
+        this.image.creator(req.user.id);
 
         // now create
-        Image.create(req.body.Image, function (err, image) {
+        this.image.save( function (err, image) {
+
             respondTo(function (format) {
                 format.json(function () {
                     if (err) {
