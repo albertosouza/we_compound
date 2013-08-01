@@ -1,18 +1,38 @@
 <ul class="breadcrumb">
     <li><a href="/">Home</a> <span class="divider">/</span></li>
-    <li><a href="<%- pathTo.users() %>">users</a> <span class="divider">/</span></li>
-    <li class="active"><a href="#">Edit user</a></li>
+    <li><a href="<%- pathTo.user(user) %>">account</a> <span class="divider">/</span></li>
+    <li class="active"><a href="#"><%= title %></a></li>
 </ul>
 
 <div class="page-header">
-    <h1>Edit user</h1>
+    <h1><%= title %></h1>
 </div>
+
+<div class="span6">
+
+<h3>Edit account</h3>
 
 <% var form = formFor(user, {action: pathTo.user(user), method: 'PUT', id: "user-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
-<%- include _form %>
+<%- include _account_settings_form %>
 <div class="form-actions">
-    <%- form.submit('<i class="icon-ok icon-white"></i> Update user', {class: 'btn btn-primary'}) %> or
-    <%- linkTo('Cancel', pathTo.user(user), {class: 'btn'}) %>
+    <%- form.submit('<i class="icon-ok icon-white"></i> Update account', {class: 'btn btn-primary'}) %>
 </div>
 <%- form.end() %>
+
+</div>
+
+<div class="span5">
+
+<h3>Change password</h3>
+
+<% var form = formFor(passwords, {action: pathTo.account_settings_password(), method: 'PUT', id: "user-chage-password-form", class: 'form-horizontal'}) %>
+<%- form.begin() %>
+<%- include _change_password_form %>
+<div class="form-actions">
+    <%- form.submit('<i class="icon-ok icon-white"></i> Update password', {class: 'btn btn-primary'}) %> or
+    <span><a href="/sessions/forgot_password">I forgot my password</a></span>
+</div>
+<%- form.end() %>
+
+</div>

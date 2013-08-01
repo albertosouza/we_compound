@@ -23,8 +23,12 @@
 
             <!-- Link or button to toggle dropdown -->
             <ul class="dropdown-menu " role="menu" aria-labelledby="dLabel">
-              <li><a tabindex="-1" href="/account">View account</a></li>
-              <li><%- linkTo('Edit account', pathTo.account_settings(),  { tabindex: '-1'}) %></li>
+              <li>
+                <%- linkTo('View account', pathTo.user(request.user),  { tabindex: '-1'}) %>
+              </li>
+              <li>
+                <%- linkTo('Edit account', pathTo.edit_user(request.user),  { tabindex: '-1'}) %>
+              </li>
               <li class="divider"></li>
               <li><%- linkTo('Sing out', pathTo.logout(),  { tabindex: '-1'}) %></li>
             </ul>

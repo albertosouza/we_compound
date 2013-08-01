@@ -29,34 +29,6 @@ action('logout', function () {
     res.redirect('/');
 });
 
-action('account', function () {
-    this.user = req.user;
-    this.title = 'User show';
-    switch(params.format) {
-        case "json":
-            send({code: 200, data: this.user});
-            break;
-        default:
-            render();
-    }
-});
-
-action('accountSettings', function () {
-    this.user = req.user;
-    this.passwords = {};
-
-    console.log(path_to.account_settings());
-
-    this.title = 'Account settings';
-    switch(params.format) {
-        case "json":
-            send(this.user);
-            break;
-        default:
-            render();
-    }
-});
-
 // TODO need to implement a better password validation
 action('changePassword', function () {
 
@@ -173,7 +145,8 @@ action(function index() {
 });
 
 action(function show() {
-    this.title = 'User show';
+    this.user = req.user;
+    this.title = 'User account';
     switch(params.format) {
         case "json":
             send({code: 200, data: this.user});
@@ -181,10 +154,14 @@ action(function show() {
         default:
             render();
     }
+
+
 });
 
 action(function edit() {
-    this.title = 'User edit';
+    this.title = 'User settings';
+    this.passwords = {};
+
     switch(params.format) {
         case "json":
             send(this.user);
