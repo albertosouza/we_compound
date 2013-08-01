@@ -1,8 +1,9 @@
-module.exports = 
+module.exports =
   { "development":
-	{ "driver":   "mongodb"
-	  , "url":      "mongodb://localhost/we_compound"
-	}
+    { "driver":   "redis",
+      "host":     "localhost",
+      "port":     6379
+    }
   , "test":
     { "driver":   "memory"
     }

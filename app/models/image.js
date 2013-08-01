@@ -7,7 +7,7 @@ module.exports = function (compound, Image) {
     // The directory to upload Images too.
     Image.directory = compound.root + '/public/media/galleries/images';
 
-    Image.src = compound.root + '/public/media/galleries/images';
+    Image.prototype.url = compound.root + '/media/galleries/images';
 
     Image.beforeCreate = function(next, data) {
 
@@ -16,6 +16,9 @@ module.exports = function (compound, Image) {
         next();
     };
 
+    Image.createFilename = function (name) {
+        return Image.directory + '/' +  name;
+    };
 
     Image.prototype.remove = function (cb) {
         fs.unlink(Image.createFilename(this.name), cb);
@@ -23,10 +26,6 @@ module.exports = function (compound, Image) {
 
     Image.prototype.src = function () {
         return '/media/galleries/images/' + this.systemName;
-    };
-
-    Image.createFilename = function (name) {
-        return Image.directory + '/' +  name;
     };
 
     Image.prototype.upload = function (name, path, cb) {

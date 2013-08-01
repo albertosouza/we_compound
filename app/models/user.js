@@ -9,33 +9,36 @@ module.exports = function (compound, User) {
     };
 
     User.beforeSave = function(next, data) {
+
         var user = this;
+        if(data.password){
+            user.passwordIsModified(
+                function (){
+                    // generate a salt
+                    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+                        if (err) return next(err);
 
-        user.passwordIsModified(
-            function (){
-                // generate a salt
-                bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-                    if (err) return next(err);
+                        // hash the password along with our new salt
+                        bcrypt.hash(data.password, salt, function(err, hash) {
+                            if (err)  return next(err);
 
-                    // hash the password along with our new salt
-                    bcrypt.hash(data.password, salt, function(err, hash) {
-                        if (err)  return next(err);
+                            // override the cleartext password with the hashed one
+                            data.password = hash;
 
-                        // override the cleartext password with the hashed one
-                        data.password = hash;
-
-                        return next();
+                            return next();
+                        });
                     });
-                });
 
-            },
-            function (){
-                return next();
-            }
+                },
+                function (){
+                    return next();
+                }
 
 
-        );
-
+            );
+        }else{
+          return next();
+        }
 
     };
 
@@ -66,23 +69,24 @@ module.exports = function (compound, User) {
     // @TODO needs more work in this test
     User.prototype.passwordIsModified = function (nextIsModified, nextIsSame) {
         var newUser = this;
+            if(newUser.password) return nextIsModified();
 
-        User.all({
-            where: {
-                email: newUser.email
-            }, limit: 1
-        }, function (err, user) {
+            User.all({
+                where: {
+                    email: newUser.email
+                }, limit: 1
+            }, function (err, user) {
 
-            // if user is new
-            if(!user[0])  nextIsModified();
+                // if user is new
+                if(!user[0])  nextIsModified();
 
-            // if is update
-            if( user[0].password != newUser.password  ){
-                nextIsModified();
-            }else{
-                nextIsSame();
-            }
-        });
+                // if is update
+                if( user[0].password != newUser.password  ){
+                    nextIsModified();
+                }else{
+                    nextIsSame();
+                }
+            });
 
     };
 
