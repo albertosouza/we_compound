@@ -3,7 +3,12 @@ module.exports = function (compound) {
     var express = require('express'),
 
     mongoStore = require('connect-mongo')(express);
+
     var flash = require('connect-flash');
+
+    // redis store for session store
+    var RedisStore = require("connect-redis")(express);
+    var redis = require("redis").createClient();
 
     var app = compound.app;
 
@@ -15,15 +20,12 @@ module.exports = function (compound) {
         app.set('cssEngine', 'stylus');
         app.use(express.bodyParser());
         app.use(express.cookieParser('secret'));
-        // express/mongo session storage
+        // express/redis session storage
         app.use(express.session({
             secret: 'secret',
-            store: new mongoStore({
-                url: 'mongodb://localhost/we_compound',
-                collection : 'sessions',
-                auto_reconnect: true
-            })
+            store: new RedisStore({ host: 'localhost', port: 6379, client: redis })
         }));
+
         app.use(express.methodOverride());
         app.use(app.router);
     });
