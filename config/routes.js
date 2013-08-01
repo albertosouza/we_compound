@@ -7,9 +7,8 @@ exports.routes = function (map) {
     map.get('login', 'users#login');
     map.get('signup', 'users#signup');
     map.get('logout', 'users#logout');
-    map.get('account/settings', 'users#accountSettings', ensureAuthenticated);
 
-    map.put('account/settings/password', 'users#changePassword', ensureAuthenticated);
+    map.put('/users/:id/password.:format?', 'users#changePassword', ensureAuthenticated);
 
 
     // board services routes

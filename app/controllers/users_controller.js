@@ -35,31 +35,36 @@ action('changePassword', function () {
     var err = false;
     var user = req.user;
 
-    if(req.body.confirmpassword == req.body.password){
+    if(req.body.password){
+        var newPassword = req.body.password;
+
         if(req.body.oldpassword){
             var oldPassword = req.body.oldpassword;
 
-            // check if old password is correct
-            if (!User.verifyPassword(oldPassword, user.password) ){
-                err = "<strong>Old password</strong> is wrong";
+            // dont have a password then pass validation
+            if(user.password){
+                // check if old password is correct
+                if (!User.verifyPassword(oldPassword, user.password) ){
+                    err = "<strong>Old password</strong> is wrong";
+                }
             }
+
 
         } else {
             err = "<strong>Old password</strong> isn't valid";
         }
 
-        if(req.body.password){
-            var newPassword = req.body.password;
+    } else {
+        err = "<strong>New password</strong> isn't valid";
+    }
 
-        } else {
-            err = "<strong>New password</strong> isn't valid";
-        }
 
-        if(!req.body.confirmpassword){
-            err = "The field <strong>Confirm new password</strong> is required";
-        }
+    if(!req.body.confirmpassword){
+        err = "The field <strong>Confirm new password</strong> is required";
+    }
 
-    }else{
+
+    if(req.body.confirmpassword != req.body.password){
         err = "<strong>New password</strong> and <strong>Confirm new password</strong> are different";
     }
 
@@ -77,7 +82,7 @@ action('changePassword', function () {
                 format.html(function () {
                     if (!err) {
                         flash('info', 'Password updated');
-                        redirect(path_to.account_settings());
+                        redirect(path_to.edit_user(req.user));
                     } else {
                         flash('error', 'Password can not be updated');
                         render('edit');
@@ -88,7 +93,7 @@ action('changePassword', function () {
 
     } else {
         flash('error', err);
-        redirect(path_to.account_settings());
+        redirect(path_to.edit_user(req.user));
         /*
         render('accountSettings', {
             user: user,
