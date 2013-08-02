@@ -3,13 +3,16 @@ exports.routes = function (map) {
     LocalStrategy = require('passport-local').Strategy;
 
     // users
-    map.resources('users');
+    map.resources('users', function (user) {
+        user.get('avatar', 'users#showAvatar');
+        user.put('avatar', 'users#updateAvatar');
+
+        user.resources('images');
+    });
     map.get('login', 'users#login');
     map.get('signup', 'users#signup');
     map.get('logout', 'users#logout');
-
-    map.put('/users/:id/password.:format?', 'users#changePassword', ensureAuthenticated);
-
+    map.put('/users/:id/password.:format?', 'users#changePassword');
 
     // board services routes
     map.resources('boards');
@@ -20,7 +23,7 @@ exports.routes = function (map) {
 
     //galleries routes
     map.resources('galleries');
-    map.resources('images');
+    map.resources('images', {path: 'img'});
 
     //map.post('galleries/images/new', 'galleries#newImage');
 
