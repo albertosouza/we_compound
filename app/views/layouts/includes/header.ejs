@@ -10,7 +10,9 @@
               <li><a href="#contact">Contact</a></li>
               <li><%- link_to('Boards', '/boards') %></li>
               <li><%- link_to('Images', pathTo.images()) %></li>
-              <li><%- link_to('Galleries', pathTo.galleries()) %></li>
+              <li>
+                <%- link_to('Galleries', pathTo.galleries()) %>
+              </li>
       </ul>
 
       <div class="dropdown pull-right">
@@ -18,8 +20,10 @@
         <% if(isLogedIn()){ %>
           <div class="btn-group">
 
-            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown"  ><%= request.user.displayName %> <span class="caret"></span></a>
-
+            <a href="#" class="btn dropdown-toggle" data-toggle="dropdown"  >
+              <img class="avatar-small" src="/images/icons/user-avatar.png" >
+              <%= request.user.displayName %> <span class="caret"></span>
+            </a>
 
             <!-- Link or button to toggle dropdown -->
             <ul class="dropdown-menu " role="menu" aria-labelledby="dLabel">
@@ -29,8 +33,15 @@
               <li>
                 <%- linkTo('Edit account', pathTo.edit_user(request.user),  { tabindex: '-1'}) %>
               </li>
+              <!-- TODO implement modal change avatar
+              <li>
+                <a href="#" class="js-change-avatar">Change avatar</a>
+              </li>
+            -->
               <li class="divider"></li>
-              <li><%- linkTo('Sing out', pathTo.logout(),  { tabindex: '-1'}) %></li>
+              <li>
+                <%- linkTo('Sing out', pathTo.logout(),  { tabindex: '-1'}) %>
+              </li>
             </ul>
 
           </div>
@@ -47,3 +58,4 @@
   </div>
 </div>
 </header>
+

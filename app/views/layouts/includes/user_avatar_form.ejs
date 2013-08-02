@@ -1,0 +1,35 @@
+<div id="user-avatar-form-area" class="show-dialog user-avatar-form-area">
+    <div class="header">
+        <h3>Select avatar</h3>
+
+    </div>
+    <div class="sidebar span2">
+        <ul class="nav nav-list">
+            <li>
+                <a href="#">Upload images <i class="icon-chevron-right"></i></a>
+            </li>
+            <li>
+                <a href="#">Your images <i class="icon-chevron-right"></i></a>
+            </li>
+            <li>
+                <a href="#">Web camera <i class="icon-chevron-right"></i></a>
+            </li>
+        </ul>
+    </div>
+    <div class="content span5">
+    <% var form = formFor(user, {action: pathTo.user_avatar(user), method: 'PUT', id: "user-avatar-form", class: 'form-horizontal'}) %>
+        <%- form.begin() %>
+
+        <input name="file" class="js-upload-avatar" style="margin-bottom: 0;" tabindex="-1" accept="image/*;capture=camera" type="file">
+
+        <div class="form-actions">
+            <%- form.submit('<i class="icon-ok icon-white"></i> Set as avatar', {class: 'btn btn-primary'}) %>
+
+        </div>
+    <%- form.end() %>
+    </div>
+
+    <div class="footer">
+    </div>
+
+</div>

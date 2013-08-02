@@ -28,8 +28,21 @@ module.exports = function (compound, Image) {
         return '/media/galleries/images/' + this.systemName;
     };
 
-    Image.prototype.upload = function (name, path, cb) {
-        mv(path, Image.createFilename(name), cb);
+    Image.prototype.upload = function (tmpFile , cb) {
+
+        // set image vars
+        this.systemName = Image.createFilename(tmpFile.name);
+        this.fileName = tmpFile.name;
+        this.type = tmpFile.type;
+        this.size = tmpFile.type;
+
+        //set field name as tmp file name if user dont specify
+        if(!this.name){
+            this.name = tmpFile.name;
+        }
+
+
+        mv(tmpFile.path, this.systemName, cb);
     };
 
     Image.prototype.rename = function (name, cb) {

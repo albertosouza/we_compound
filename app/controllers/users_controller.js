@@ -107,6 +107,95 @@ action('changePassword', function () {
 
 });
 
+/* update user avatar */
+action(function updateAvatar(){
+    console.log(req.user);
+    console.log(req.params.user_id);
+
+    var tmpFile = req.files.file;
+
+    User.findOne({ where: { id: req.params.user_id } } , function(err, user){
+        if(err){
+            console.log(err);
+            return send({code: 500, error: err});
+        }
+
+        var avatar = new Image();
+
+        avatar.upload(tmpFile , function (err) {
+            if (err) {
+                console.log(err);
+                this.title = 'New file';
+                flash('error', 'File can not be created');
+                return render('new');
+            } else {
+                flash('info', 'File created');
+            }
+
+            avatar.creator(req.user.id);
+
+            // set avatar assoc
+            avatar.creator(user.id);
+            // now create
+
+            avatar.save( function (err, image) {
+
+                respondTo(function (format) {
+                    format.json(function () {
+                        if (err) {
+                            send({code: 500, error: avatar && avatar.errors || err});
+                        } else {
+                            send({code: 200, data: avatar.toObject()});
+                        }
+                    });
+                    format.html(function () {
+                        if (err) {
+                            flash('error', 'User avatar can not be created');
+                            render('new', {
+                                user: user,
+                                title: 'User avatar'
+                            });
+                        } else {
+                            flash('info', 'User avatar changed');
+                            redirect(path_to.user(user));
+                        }
+                    });
+                });
+            });
+
+        });
+
+    });
+
+    console.log('no update');
+    console.log(req.params.id);
+    this.title = 'Update avatar';
+    /*
+    this.user.updateAttributes(body.User, function (err) {
+        respondTo(function (format) {
+            format.json(function () {
+                if (err) {
+                    send({code: 500, error: user && user.errors || err});
+                } else {
+                    send({code: 200, data: user});
+                }
+            });
+            format.html(function () {
+                if (!err) {
+                    flash('info', 'User updated');
+                    redirect(path_to.user(user));
+                } else {
+                    flash('error', 'User can not be updated');
+                    render('edit');
+                }
+            });
+        });
+
+    });
+*/
+
+});
+
 action(function create() {
     User.create(req.body.User, function (err, user) {
         user.provider = 'local';

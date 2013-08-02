@@ -10,7 +10,9 @@
     </head>
     <body>
 
-       <% include includes/header.ejs %>
+        <% include includes/header.ejs %>
+
+
 
         <div class="middle-container container">
             <% var flash = request.flash('info').pop(); if (flash) { %>
@@ -33,6 +35,8 @@
 
         </div>
         <% include includes/footer.ejs %>
+
+
     </body>
 </html>
 <%- contentFor('javascripts') %>

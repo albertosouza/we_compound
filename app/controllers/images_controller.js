@@ -16,7 +16,7 @@ action(function create() {
     var tmpFile = req.files.Image.file;
 
     // upload
-    this.image.upload(tmpFile.name, tmpFile.path, function (err) {
+    this.image.upload(tmpFile , function (err) {
         if (err) {
             console.log(err);
             this.title = 'New file';
@@ -26,16 +26,6 @@ action(function create() {
             flash('info', 'File created');
         }
 
-        // set image vars
-        this.image.systemName = tmpFile.name;
-        this.image.fileName = tmpFile.name;
-        this.image.type = tmpFile.type;
-        this.image.size = tmpFile.type;
-
-        //set field name as tmp file name if user dont specify
-        if(!this.image.name){
-            this.image.name = tmpFile.name;
-        }
 
         // set creator id
         this.image.creator(req.user.id);
