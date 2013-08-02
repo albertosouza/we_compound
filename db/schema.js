@@ -91,5 +91,5 @@ Gallery.hasMany(Image,   {as: 'images'});
 
 Image.belongsTo(User,   {as: 'creator'});
 
-User.hasMany(Image,   {as: 'avatar'});
+Image.belongsTo(User,   {as: 'avatar'});
 
