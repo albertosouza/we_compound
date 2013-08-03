@@ -30,7 +30,7 @@ exports.routes = function (map) {
     //map.post('galleries/images/new', 'galleries#newImage');
 
     // root or home route
-    map.root('boards#index');
+    map.root('posts#index');
 
     // feel free to remove generic routes
     map.all(':controller/:action');
