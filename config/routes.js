@@ -1,4 +1,6 @@
 exports.routes = function (map) {
+    map.resources('posts');
+
     var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 

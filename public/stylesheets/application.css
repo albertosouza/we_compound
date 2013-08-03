@@ -55,3 +55,6 @@ body {
   transition-timing-function: ease-out;
   z-index: 0;
 }
+.avatar-small {
+  width: 20px;
+}

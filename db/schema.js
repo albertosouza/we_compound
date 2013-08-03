@@ -93,3 +93,10 @@ Image.belongsTo(User,   {as: 'creator'});
 
 Image.belongsTo(User,   {as: 'avatar'});
 
+var Post = describe('Post', function () {
+    property('content', String);
+    property('createdAt', Date);
+    property('updatedAt', Date);
+    set('restPath', pathTo.posts);
+});
+
