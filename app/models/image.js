@@ -2,24 +2,13 @@ var fs = require('fs');
 var mv = require('mv');
 
 module.exports = function (compound, Image) {
-  // define Image here
-    console.log(compound.root);
-    // The directory to upload Images too.
-    Image.directory = compound.root + '/public/media/galleries/images';
+    // define Image here
 
-    Image.prototype.url = compound.root + '/media/galleries/images';
+    //- RELATIOS -//
+    Image.belongsTo(compound.models.User,   {as: 'creator'});
+    Image.belongsTo(compound.models.User,   {as: 'avatar'});
 
-    Image.beforeCreate = function(next, data) {
-
-        // set created date
-        data.uploadDate = new Date();
-        next();
-    };
-
-    Image.createFilename = function (name) {
-        return Image.directory + '/' +  name;
-    };
-
+    //- Prototype -//
     Image.prototype.remove = function (cb) {
         fs.unlink(Image.createFilename(this.name), cb);
     };
@@ -50,6 +39,8 @@ module.exports = function (compound, Image) {
         this.name = name;
         fs.rename(oldPath, Image.createFilename(this.name), cb);
     };
+
+    //- Methods -//
 
 
 };

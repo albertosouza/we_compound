@@ -46,11 +46,6 @@ var Task = describe('Task', function () {
     set('restPath', pathTo.tasks);
 });
 
-// Board relations
-Board.hasMany(List,   {as: 'lists'});
-List.belongsTo(Board, {as: 'board'});
-
-List.hasMany(Task,   {as: 'tasks'});
 Task.belongsTo(List, {as: 'list'});
 
 var User = describe('User', function () {
@@ -86,12 +81,6 @@ var Image = describe('Image', function () {
     property('uploadDate', Date);
     set('restPath', pathTo.images);
 });
-
-Gallery.hasMany(Image,   {as: 'images'});
-
-Image.belongsTo(User,   {as: 'creator'});
-
-Image.belongsTo(User,   {as: 'avatar'});
 
 var Post = describe('Post', function () {
     property('content', String);
