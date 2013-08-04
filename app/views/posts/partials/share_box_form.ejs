@@ -1,0 +1,52 @@
+<div class="row">
+<div class="share-box-area span5">
+
+<% form_for(user, {action: path_to.posts()}, function (form) { %>
+
+
+  <div class="row">
+    <div class="span1">
+      <img class="avatar" src="/images/icons/user-avatar.png">
+
+    </div>
+    <div class="span4">
+
+        <%- form.textarea('content',{class:'span4'}) %>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span1">
+      <span><strong>Attach:</strong></span>
+    </div>
+    <div class="span4">
+      <span>Images</span>
+      <span>Link</span>
+      <span>Events</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span1">
+      <span><strong>To:</strong></span>
+    </div>
+    <div class="span4">
+        <%- form.input('to',{class:"span4"}) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span5">
+      <%- form.submit('<i class="icon-ok icon-white"></i> Share', {class: 'btn btn-primary'}) %>
+       or
+   <%- linkTo('Cancel', pathTo.posts(), {class: 'btn'}) %>
+    </div>
+  </div>
+
+
+
+<% }); %>
+
+</div>
+</div>

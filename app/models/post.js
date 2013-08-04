@@ -16,6 +16,10 @@ module.exports = function (compound, Post) {
       next();
   };
 
+  Post.beforeUpdate = function(next, data) {
+      data.updatedAt = new Date();
+      next();
+  };
 
 
 };
