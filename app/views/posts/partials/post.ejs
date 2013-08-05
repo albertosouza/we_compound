@@ -1,0 +1,25 @@
+<div class="post span4">
+    <header class="clearfix post-header">
+        <img class="avatar" src="/images/icons/user-avatar.png">
+        <h4 class="username">
+            <a>Alberto Souza</a>
+        </h4>
+        <span class="subject">
+            <a>Compartilhada publicamente</a>  -  13/02/2013
+        </span>
+    </header>
+    <div class="content">
+        <%= post.id %>
+        <%= post.content %>
+        <% console.log(post.author()) %>
+    </div>
+    <div class="footer">
+        <div class="comments">
+
+        </div>
+        <div class="comment-add">
+            <img class="avatar-small pull-left" src="/images/icons/user-avatar.png">
+            <div class="comment-add-buttom" role="button">Comentar...</div>
+        </div>
+    </div>
+</div>

@@ -11,7 +11,17 @@ action('new', function () {
 });
 
 action(function create() {
-    Post.create(req.body.Post, function (err, post) {
+    // istantiate a new post
+    var post = new Post();
+
+    post.content = req.body.Post.content;
+
+    // set creator if user is authenticated
+    if(req)
+        if(req.isAuthenticated())
+            post.author(req.user.id);
+
+    post.save(function (err, post) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -38,6 +48,12 @@ action(function create() {
 
 action(function index() {
     this.title = 'Posts index';
+    var user  = null;
+
+    if(req)
+        if(req.user)
+            user  = req.user;
+
     Post.all(function (err, posts) {
         switch (params.format) {
             case "json":
@@ -45,6 +61,7 @@ action(function index() {
                 break;
             default:
                 render({
+                    user: user,
                     posts: posts
                 });
         }

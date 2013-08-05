@@ -46,8 +46,6 @@ var Task = describe('Task', function () {
     set('restPath', pathTo.tasks);
 });
 
-Task.belongsTo(List, {as: 'list'});
-
 var User = describe('User', function () {
     property('username', String);
     property('displayName', String);

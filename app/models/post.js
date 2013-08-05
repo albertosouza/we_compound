@@ -2,12 +2,16 @@ module.exports = function (compound, Post) {
   // define Post here
 
   //- RELATIONS -//
-  Post.belongsTo(compound.models.User,   {as: 'creator'});
+  Post.belongsTo(compound.models.User,   {as: 'author'});
   Post.hasMany(compound.models.Image,   {as: 'images'});
 
   //- Prototype -//
 
+  // fetch assoc
+  Post.prototype.fetchAssoc = function (cb){
 
+
+  }
 
   //- Methods -//
 

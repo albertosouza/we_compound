@@ -2,18 +2,7 @@
 <div class="control-group">
    <%- form.label("content", false, {class: "control-label"}) %>
    <div class="controls">
-       <%- form.input("content") %>
+       <%- form.textarea("content",{ rows: '20'}) %>
    </div>
 </div>
-<div class="control-group">
-   <%- form.label("createdAt", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("createdAt") %>
-   </div>
-</div>
-<div class="control-group">
-   <%- form.label("updatedAt", false, {class: "control-label"}) %>
-   <div class="controls">
-       <%- form.input("updatedAt") %>
-   </div>
-</div>
+

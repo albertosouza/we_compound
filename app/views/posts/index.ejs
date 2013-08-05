@@ -7,6 +7,25 @@
     <h1>Index of post</h1>
 </div>
 
+
+<% if(user){ %>
+    <% include partials/share_box_form.ejs %>
+<% } %>
+
+
+<div class="row">
+    <div class="posts span12">
+
+        <% posts.forEach(function (post) { %>
+            <% include partials/post.ejs %>
+        <% }); %>
+
+    </div>
+
+</div>
+
+
+
 <div class="row">
     <div class="span12">
         <p><%- link_to('<i class="icon-plus icon-white"></i> New post', pathTo.new_post(), {class: 'btn btn-primary'}) %></>
@@ -15,6 +34,7 @@
 
 <div class="row">
     <div class="span12">
+
         <% if (posts.length > 0) { %>
         <table class="table table-striped">
             <thead>

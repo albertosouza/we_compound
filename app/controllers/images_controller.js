@@ -1,5 +1,8 @@
 load('application');
 
+var getAssociated = use('getAssociated');
+
+
 before(loadImage, {
     only: ['show', 'edit', 'update', 'destroy']
     });
@@ -60,45 +63,11 @@ action(function create() {
 
 });
 
-
-// get associated model data like images->authors
-// TODO move to other file something like tools file
-function getAssociated(models, assoc, modelName, cb) {
-    var results = [];
-
-    function async(model, assoc, callback) {
-        model[assoc](function (err, assoc) {
-            callback(assoc);
-        });
-    }
-
-    function series(model) {
-
-        if (model) {
-            async(model, assoc, function (result) {
-                var obj = {};
-
-                obj = model;
-
-                obj.creator = result;
-                results.push(obj);
-
-                return series(models.shift());
-            });
-        } else {
-            return cb(results);
-        }
-    }
-
-    series(models.shift());
-}
-
-
 action(function index() {
     this.title = 'Images index';
 
     Image.all( function (err, images) {
-        getAssociated( images, 'creator', 'image', function(results) {
+        getAssociated(images, 'creator', false, 'image', function(results) {
             console.log(results);
             switch (params.format) {
                 case "json":

@@ -16,8 +16,8 @@
 <div class="row">
     <div class="span12">
         <% if (images.length > 0) { %>
-
             <% images.forEach(function (image) { %>
+
             <div class="image span3">
                 <div class="image-header">
                     Created by
@@ -28,12 +28,11 @@
                     <% } %>
                 </div>
                 <div class="image">
-
-                    <%- link_to('<img src="/media/galleries/images/' + image.name + '">', pathTo.image(image)) %>
+                    <%- link_to('<img src="/media/galleries/images/' + image.image.name + '">', pathTo.image(image.image)) %>
                 </div>
                 <div class="image-footer">
-                    <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_image(image), {class: 'btn btn-mini'}) %>
-                    <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.image(image), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+                    <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_image(image.image), {class: 'btn btn-mini'}) %>
+                    <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.image(image.image), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
                 </div>
             </div>
             <% }); %>
