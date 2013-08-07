@@ -77,7 +77,6 @@ body {
   box-shadow: -3px 5px 19px #ccc;
 }
 .posts {
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 .post header .avatar {
@@ -103,4 +102,41 @@ body {
   margin: 0px 10px 0px 35px;
   padding: 5px;
   background-color: #f4f4f4;
+}
+div.messenger-area {
+  bottom: 0px;
+  position: fixed;
+  right: 20px;
+}
+div.messenger-area .messenger {
+  display: none;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+div.messenger-area .messenger .header {
+  background-color: #f4f4f4;
+  width: 240px;
+  padding: 5px;
+  cursor: pointer;
+}
+div.messenger-area .messenger .friendlist {
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+div.messenger-area .messenger .search-area {
+  margin: 5px 0px 0px 15px;
+}
+div.messenger-off {
+  border: 1px solid #ccc;
+  background-color: #f4f4f4;
+  width: 240px;
+  padding: 5px;
+  cursor: pointer;
+}
+div.messenger-off .ui-icon-person {
+  float: left;
+  vertical-align: middle;
+}
+div.messenger-off .text {
+  margin-left: 10px;
 }

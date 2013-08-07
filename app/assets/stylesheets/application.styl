@@ -1,8 +1,8 @@
 // put your stylus code here
-$color = white
+$bgColor = white
 
 body
-  background: $color
+  background: $bgColor
 
 
 .middle-container
@@ -83,7 +83,6 @@ body
 // POST
 
 .posts
-  margin-top: 20px
   margin-bottom: 20px
 
 .post header .avatar
@@ -94,20 +93,47 @@ body
 .post
   padding: 15px
   margin-top: 20px
+  header h4
+    margin: 0px
+  div.content
+    padding-bottom: 15px
+    border-bottom: 1px solid #ccc
+  div.footer
+    margin: 15px 0px 15px 0px
+  div.footer .comment-add .comment-add-buttom
+    margin: 0px 10px 0px 35px
+    padding: 5px
+    background-color: #f4f4f4
 
-.post header h4
-  margin: 0px
 
-.post div.content
-  padding-bottom: 15px
-  border-bottom: 1px solid #ccc
+// messenger
+div.messenger-area
+  bottom: 0px
+  position: fixed
+  right: 20px
+  .messenger
+    display: none
+    border: 1px solid #ccc
+    background-color: $bgColor
+    .header
+      background-color: #f4f4f4
+      width: 240px
+      padding 5px
+      cursor: pointer
+    .friendlist
+      cursor: pointer
+      margin-bottom: 15px
+    .search-area
+      margin: 5px 0px 0px 15px;
 
-.post div.footer
-  margin: 15px 0px 15px 0px
-
-.post div.footer .comment-add .comment-add-buttom
-  margin: 0px 10px 0px 35px
-  padding: 5px
+div.messenger-off
+  border: 1px solid #ccc
   background-color: #f4f4f4
-
-
+  width: 240px
+  padding 5px
+  cursor: pointer
+  .ui-icon-person
+    float: left
+    vertical-align:middle
+  .text
+    margin-left: 10px

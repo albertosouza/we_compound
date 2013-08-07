@@ -2,8 +2,8 @@
 <html lang="en" ng-app>
     <head>
         <title><%= title %></title>
-        <%- stylesheetLinkTag('bootstrap', 'bootstrap-responsive', 'jquery-ui-bootstrap/jquery-ui-1.10.0.custom','application' ) %>
-        <%- javascriptIncludeTag('jquery.min', 'bootstrap', 'rails', 'application', 'jquery-ui.custom.min', 'angular.min') %>
+        <%- stylesheetLinkTag('bootstrap', 'bootstrap-responsive', 'jquery-ui-bootstrap/jquery-ui-1.10.0.custom','application') %>
+        <%- javascriptIncludeTag('jquery.min', 'bootstrap', 'rails', 'jquery-ui.custom.min', 'angular.min',  'application', 'messenger' ) %>
         <%- csrfMetaTag() %>
         <meta charset="utf8">
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
@@ -35,7 +35,7 @@
 
         </div>
         <% include includes/footer.ejs %>
-
+        <% include includes/messenger.ejs %>
 
     </body>
 </html>
