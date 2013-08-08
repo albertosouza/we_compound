@@ -66,7 +66,7 @@ action(function create() {
 action(function index() {
     this.title = 'Images index';
 
-    Image.all( function (err, images) {
+    Image.all({order: 'createdAt DESC'}, function (err, images) {
         getAssociated(images, 'creator', false, 'image', function(results) {
             console.log(results);
             switch (params.format) {

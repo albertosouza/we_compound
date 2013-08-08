@@ -41,6 +41,9 @@ module.exports = function (compound, Image) {
     };
 
     //- Methods -//
+    Image.createFilename = function (name){
+        return name;
 
+    };
 
 };

@@ -28,4 +28,20 @@
     });
   });
 
+  /* Sharebox ( post )*/
+
+
+  window.shareboxController = function($scope) {
+    $scope.list = [];
+    $scope.text = 'hello';
+    return $scope.submit = function() {
+      console.log(this);
+      console.log(this.action);
+      if (this.text) {
+        this.list.push(this.text);
+        return this.text = '';
+      }
+    };
+  };
+
 }).call(this);

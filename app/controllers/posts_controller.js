@@ -50,11 +50,14 @@ action(function index() {
     this.title = 'Posts index';
     var user  = null;
 
+    // for sharebox add post
+    this.post = new Post();
+
     if(req)
         if(req.user)
             user  = req.user;
 
-    Post.all(function (err, posts) {
+    Post.all({order: 'createdAt DESC'},function (err, posts) {
         switch (params.format) {
             case "json":
                 send({code: 200, data: posts});

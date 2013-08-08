@@ -1,5 +1,7 @@
 // put your stylus code here
 $bgColor = white
+$footerBG = #f0f0f0
+
 
 body
   background: $bgColor
@@ -59,6 +61,15 @@ body
   transition-timing-function: ease-out
   z-index: 0
 
+.image
+  a.image-link
+    height: 200px
+    display: block
+    background-color: $footerBG;
+  .footer
+    background-color: $footerBG
+    padding: 10px
+    text-align: right
 
 .avatar-small
   width: 20px
@@ -103,7 +114,7 @@ body
   div.footer .comment-add .comment-add-buttom
     margin: 0px 10px 0px 35px
     padding: 5px
-    background-color: #f4f4f4
+    background-color: $footerBG
 
 
 // messenger
@@ -124,11 +135,11 @@ div.messenger-area
       cursor: pointer
       margin-bottom: 15px
     .search-area
-      margin: 5px 0px 0px 15px;
+      margin: 5px 0px 0px 15px
 
 div.messenger-off
   border: 1px solid #ccc
-  background-color: #f4f4f4
+  background-color: $footerBG
   width: 240px
   padding 5px
   cursor: pointer

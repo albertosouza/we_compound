@@ -1,8 +1,7 @@
 <div class="row">
 <div class="share-box-area span5">
 
-<% form_for(user, {action: path_to.posts()}, function (form) { %>
-
+<% form_for(post, {action: path_to.posts(), 'ng-submit': 'submit()', 'ng-controller': 'shareboxController'}, function (form) { %>
 
   <div class="row">
     <div class="span1">

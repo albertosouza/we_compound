@@ -239,7 +239,6 @@ action(function index() {
 });
 
 action(function show() {
-    this.user = req.user;
     this.title = 'User account';
     switch(params.format) {
         case "json":

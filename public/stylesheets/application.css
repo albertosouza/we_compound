@@ -55,6 +55,16 @@ body {
   transition-timing-function: ease-out;
   z-index: 0;
 }
+.image a.image-link {
+  height: 200px;
+  display: block;
+  background-color: #f0f0f0;
+}
+.image .footer {
+  background-color: #f0f0f0;
+  padding: 10px;
+  text-align: right;
+}
 .avatar-small {
   width: 20px;
 }
@@ -101,7 +111,7 @@ body {
 .post div.footer .comment-add .comment-add-buttom {
   margin: 0px 10px 0px 35px;
   padding: 5px;
-  background-color: #f4f4f4;
+  background-color: #f0f0f0;
 }
 div.messenger-area {
   bottom: 0px;
@@ -128,7 +138,7 @@ div.messenger-area .messenger .search-area {
 }
 div.messenger-off {
   border: 1px solid #ccc;
-  background-color: #f4f4f4;
+  background-color: #f0f0f0;
   width: 240px;
   padding: 5px;
   cursor: pointer;
