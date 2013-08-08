@@ -6,10 +6,6 @@ module.exports = function (compound) {
 
     var flash = require('connect-flash');
 
-    // redis store for session store
-    var RedisStore = require("connect-redis")(express);
-    var redis = require("redis").createClient();
-
     var app = compound.app;
 
     app.configure(function(){
@@ -20,12 +16,14 @@ module.exports = function (compound) {
         app.set('cssEngine', 'stylus');
         app.use(express.bodyParser());
         app.use(express.cookieParser('secret'));
-        // express/redis session storage
+        // express/mongo session storage
         app.use(express.session({
             secret: 'secret',
-            store: new RedisStore({ host: 'localhost', port: 6379, client: redis })
+            store: new mongoStore({
+                url: 'mongodb://localhost/we_compound',
+                collection : 'sessions'
+            })
         }));
-
         app.use(express.methodOverride());
         app.use(app.router);
     });
