@@ -12,7 +12,7 @@ action('new', function () {
 
 action(function create() {
 	console.log(req.body.List);
-	
+
     List.create(req.body.List, function (err, list) {
         respondTo(function (format) {
             format.json(function () {
@@ -123,7 +123,7 @@ action(function destroy() {
 });
 
 function loadList() {
-    List.find(params.id, function (err, list) {
+    List.findOne({ '_id': params.id }, function (err, list) {
         if (err || !list) {
             if (!err && !list && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});

@@ -2,12 +2,13 @@ module.exports = function (compound, Gallery) {
   // define Gallery here
 
   //- RELATIONS -//
-  Gallery.hasMany(compound.models.Image,   {as: 'images'});
 
   //- Methods -//
-  Gallery.beforeCreate = function(next, data) {
+  /*
+  Gallery.beforeCreate = function(next, Gallery) {
       // set created date
       data.createdAt = new Date();
       next();
   };
+  */
 };

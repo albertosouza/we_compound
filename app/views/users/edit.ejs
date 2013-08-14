@@ -26,7 +26,7 @@
 
 <h3>Change password</h3>
 
-<% var form = formFor(passwords, {action: pathTo.user_password(user), method: 'PUT', id: "user-chage-password-form", class: 'form-horizontal'}) %>
+<% var form = formFor({}, {action: pathTo.user_password(user), method: 'PUT', id: "user-chage-password-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
 <%- include _change_password_form %>
 <div class="form-actions">

@@ -10,7 +10,7 @@
 
 <% var form = formFor(image, {action: pathTo.image(image), method: 'PUT', id: "image-form", class: 'form-horizontal'}) %>
 <%- form.begin() %>
-<%- include _form %>
+<%- include _edit_form %>
 <div class="form-actions">
     <%- form.submit('<i class="icon-ok icon-white"></i> Update image', {class: 'btn btn-primary'}) %> or
     <%- linkTo('Cancel', pathTo.image(image), {class: 'btn'}) %>

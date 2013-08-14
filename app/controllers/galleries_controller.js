@@ -121,7 +121,7 @@ action(function destroy() {
 });
 
 function loadGallery() {
-    Gallery.find(params.id, function (err, gallery) {
+    Gallery.findOne({ '_id': params.id }, function (err, gallery) {
         if (err || !gallery) {
             if (!err && !gallery && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});

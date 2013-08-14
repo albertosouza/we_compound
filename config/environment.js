@@ -8,6 +8,9 @@ module.exports = function (compound) {
 
     var app = compound.app;
 
+    require('./mongoose').init(compound);
+
+
     app.configure(function(){
         app.use(flash());
         app.use(express.static(app.root + '/public', { maxAge: 86400000 }));

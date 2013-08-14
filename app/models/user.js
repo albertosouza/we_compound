@@ -1,93 +1,63 @@
 module.exports = function (compound, User) {
-  // define User here
+    // define User here
     var bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 
-    User.beforeCreate = function(next, data) {
-        data.createdAt = new Date();
-        next();
+
+    //- PROTOTyPES -//
+    User.prototype.setPassword = function (password, done) {
+        var _this = this;
+
+        // generate a salt
+        bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
+            if (err) return done(err);
+
+            // hash the password along with our new salt
+            bcrypt.hash(password, salt, function(err, crypted) {
+                _this.cryptedPassword = crypted;
+                done();
+            });
+        });
     };
 
-    User.beforeSave = function(next, data) {
+    User.prototype.getName = function (){
+        if( this.displayName ){
+            return this.displayName;
+        }
+        return this.username;
+    };
 
-        var user = this;
-        if(data.password){
-            user.passwordIsModified(
-                function (){
-                    // generate a salt
-                    bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-                        if (err) return next(err);
-
-                        // hash the password along with our new salt
-                        bcrypt.hash(data.password, salt, function(err, hash) {
-                            if (err)  return next(err);
-
-                            // override the cleartext password with the hashed one
-                            data.password = hash;
-
-                            return next();
-                        });
-                    });
-
-                },
-                function (){
-                    return next();
-                }
-
-
-            );
-        }else{
-          return next();
+    //- Methods -//
+    User.schema.pre('save', function (next) {
+        if (!this.createdAt){
+          this.createdAt = new Date();
+        } else {
+          this.updatedAt = new Date();
         }
 
-    };
+        var user = this;
+
+        next();
+    });
 
     // get user by email
     User.getUserByEmail = function (email){
         if (email) {
-            User.all({
-                where: {
-                    email: email
-                }, limit: 1
+            User.findOne({
+                'email': email
             }, function (err, user) {
-                console.log(user);
-                if (user[0]) return user[0];
-                if (!user[0]) return false;
+                if (user) return user;
+                if (!user) return false;
             });
         } else {
             return false;
         }
-
     };
 
     // verify user password
-    User.verifyPassword = function (password, hash) {
-        var isMatch = bcrypt.compareSync(password, hash);
+    User.verifyPassword = function (password, cryptedPassword) {
+        var isMatch = bcrypt.compareSync(password, cryptedPassword);
         return isMatch;
-    };
-
-    // @TODO needs more work in this test
-    User.prototype.passwordIsModified = function (nextIsModified, nextIsSame) {
-        var newUser = this;
-            if(newUser.password) return nextIsModified();
-
-            User.all({
-                where: {
-                    email: newUser.email
-                }, limit: 1
-            }, function (err, user) {
-
-                // if user is new
-                if(!user[0])  nextIsModified();
-
-                // if is update
-                if( user[0].password != newUser.password  ){
-                    nextIsModified();
-                }else{
-                    nextIsSame();
-                }
-            });
-
     };
 
     User.changePassword = function(user, oldPassword, newPassword, next){
@@ -107,12 +77,8 @@ module.exports = function (compound, User) {
 
     /* GITHUB */
     if (data.githubId) {
-        User.all({
-            where: {
-                githubId: data.githubId
-            }, limit: 1
-        }, function (err, user) {
-            if (user[0]) return done(err, user[0]);
+        User.findOne({ 'githubId': data.githubId }, function (err, user) {
+            if (user) return done(err, user);
             User.create({
                 githubId: data.githubId,
                 displayName: data.profile.displayName || data.profile.username
@@ -122,12 +88,8 @@ module.exports = function (compound, User) {
 
     /* GOOGLE OPENID */
     if (data.openId) {
-        User.all({
-            where: {
-                googleId: data.openId
-            }, limit: 1
-        }, function (err, user) {
-            if (user[0]) return done(err, user[0]);
+        User.findOne({ 'googleId': data.openId }, function (err, user) {
+            if (user) return done(err, user);
             User.create({
                 displayName: data.profile.displayName,
                 email: data.profile.emails[0].value,
@@ -138,12 +100,8 @@ module.exports = function (compound, User) {
 
     /* LINKEDIN */
     if (data.linkedinId) {
-        User.all({
-            where: {
-                linkedinId: data.linkedinId
-            }, limit: 1
-        }, function (err, user) {
-            if (user[0]) return done(err, user[0]);
+        User.findOne({ 'linkedinId': data.linkedinId }, function (err, user) {
+            if (user) return done(err, user);
             User.create({
                 displayName: data.profile.displayName,
                 linkedinId: data.linkedinId
@@ -153,13 +111,9 @@ module.exports = function (compound, User) {
 
     /* LOCAL */
     if (data.email) {
-        User.all({
-            where: {
-                email: data.email
-            }, limit: 1
-        }, function (err, user) {
-            if (user[0]) return done(err, user[0]);
-            if (!user[0]) return done(err);
+        User.findOne({ 'email': data.email }, function (err, user) {
+            if (user) return done(err, user);
+            if (!user) return done(err);
         });
     } else
 
@@ -168,6 +122,8 @@ module.exports = function (compound, User) {
         console.log(data.profile);
     }
   };
+
+    //TODO
 
     User.failedLogin = {
         NOT_FOUND: 0,

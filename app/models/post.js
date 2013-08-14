@@ -2,8 +2,6 @@ module.exports = function (compound, Post) {
   // define Post here
 
   //- RELATIONS -//
-  Post.belongsTo(compound.models.User,   {as: 'author'});
-  Post.hasMany(compound.models.Image,   {as: 'images'});
 
   //- Prototype -//
 
@@ -11,19 +9,21 @@ module.exports = function (compound, Post) {
   Post.prototype.fetchAssoc = function (cb){
 
 
-  }
+  };
 
   //- Methods -//
+
+  Post.schema.pre('save', function (next) {
+    if (this.isNew){
+      this.createdAt = new Date();
+    } else {
+      this.updatedAt = new Date();
+    }
+    next();
+  });
 
   Post.beforeCreate = function(next, data) {
       data.createdAt = new Date();
       next();
   };
-
-  Post.beforeUpdate = function(next, data) {
-      data.updatedAt = new Date();
-      next();
-  };
-
-
 };

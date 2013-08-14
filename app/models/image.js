@@ -1,15 +1,15 @@
 var fs = require('fs');
 var mv = require('mv');
+var imageFolder = 'public/media/galleries/images/';
+
 
 module.exports = function (compound, Image) {
     // define Image here
 
     //- RELATIOS -//
-    Image.belongsTo(compound.models.User,   {as: 'creator'});
-    Image.belongsTo(compound.models.User,   {as: 'avatar'});
 
     //- Prototype -//
-    Image.prototype.remove = function (cb) {
+    Image.prototype.deleteFile = function (cb) {
         fs.unlink(Image.createFilename(this.name), cb);
     };
 
@@ -30,8 +30,7 @@ module.exports = function (compound, Image) {
             this.name = tmpFile.name;
         }
 
-
-        mv(tmpFile.path, this.systemName, cb);
+        mv(tmpFile.path, imageFolder + this.systemName, cb);
     };
 
     Image.prototype.rename = function (name, cb) {

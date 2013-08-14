@@ -1,7 +1,7 @@
 load('application');
 
 before(loadUser, {
-    only: ['show', 'edit', 'update', 'destroy']
+    only: ['show', 'edit', 'update', 'destroy', 'changePassword']
 });
 
 action('new', function () {
@@ -31,20 +31,22 @@ action('logout', function () {
 
 // TODO need to implement a better password validation
 action('changePassword', function () {
-
     var err = false;
-    var user = req.user;
+    var user = this.user;
+
+    var newPassword = null;
+    var oldPassword = null;
 
     if(req.body.password){
-        var newPassword = req.body.password;
+        newPassword = req.body.password;
 
-        if(req.body.oldpassword){
-            var oldPassword = req.body.oldpassword;
+        if(typeof req.body.oldpassword !== 'undefined'){
+            oldPassword = req.body.oldpassword;
 
             // dont have a password then pass validation
-            if(user.password){
+            if(user.cryptedPassword){
                 // check if old password is correct
-                if (!User.verifyPassword(oldPassword, user.password) ){
+                if (!User.verifyPassword(oldPassword, user.cryptedPassword) ){
                     err = "<strong>Old password</strong> is wrong";
                 }
             }
@@ -63,48 +65,46 @@ action('changePassword', function () {
         err = "The field <strong>Confirm new password</strong> is required";
     }
 
-
     if(req.body.confirmpassword != req.body.password){
         err = "<strong>New password</strong> and <strong>Confirm new password</strong> are different";
     }
 
     if(!err){
 
-        User.changePassword(user ,oldPassword ,newPassword ,function(err){
-            respondTo(function (format) {
-                format.json(function () {
-                    if (err) {
-                        send({code: 500, error: user && user.errors || err});
-                    } else {
-                        send({code: 200, data: user});
-                    }
-                });
-                format.html(function () {
-                    if (!err) {
-                        flash('info', 'Password updated');
-                        redirect(path_to.edit_user(req.user));
-                    } else {
-                        flash('error', 'Password can not be updated');
-                        render('edit');
-                    }
+        user.setPassword( newPassword, function(err){
+            if(err){
+                flash('error', err);
+                redirect(path_to.edit_user(req.user));
+            }
+
+            user.save( function (err, user, numberAffected) {
+
+                respondTo( function (format) {
+                    format.json(function () {
+                        if (err) {
+                            send({code: 500, error: user && user.errors || err});
+                        } else {
+                            send({code: 200, data: user});
+                        }
+                    });
+                    format.html(function () {
+                        if (!err) {
+                            flash('info', 'Password updated');
+                            redirect(path_to.edit_user(user));
+                        } else {
+                            flash('error', 'Password can not be updated');
+                            render('edit');
+                        }
+                    });
                 });
             });
         });
 
+
     } else {
         flash('error', err);
         redirect(path_to.edit_user(req.user));
-        /*
-        render('accountSettings', {
-            user: user,
-            passwords: {
-            },
-            title: 'New user'
-        });
-*/
     }
-
-
 });
 
 /* update user avatar */
@@ -197,6 +197,17 @@ action(function updateAvatar(){
 });
 
 action(function create() {
+
+    var user = new User();
+    /*
+    if(req.body.User){
+        user.username = req.body.User.username;
+        user.displayName = req.body.User.displayName;
+        user.email = req.body.User.email;
+        user.password = req.body.User.password;
+        user.bio = req.body.User.bio;
+    }
+*/
     User.create(req.body.User, function (err, user) {
         user.provider = 'local';
         respondTo(function (format) {
@@ -225,16 +236,20 @@ action(function create() {
 
 action(function index() {
     this.title = 'Users index';
-    User.all(function (err, users) {
-        switch (params.format) {
-            case "json":
-                send({code: 200, data: users});
-                break;
-            default:
-                render({
-                    users: users
-                });
-        }
+    User
+        .find()
+        .limit(10)
+        //.sort('-createdAt')
+        .exec( function (err, users) {
+            switch (params.format) {
+                case "json":
+                    send({code: 200, data: users});
+                    break;
+                default:
+                    render({
+                        users: users
+                    });
+            }
     });
 });
 
@@ -253,7 +268,6 @@ action(function show() {
 
 action(function edit() {
     this.title = 'User settings';
-    this.passwords = {};
 
     switch(params.format) {
         case "json":
@@ -265,10 +279,20 @@ action(function edit() {
 });
 
 action(function update() {
-    var user = this.user;
-    console.log('no update');
     this.title = 'Edit user details';
-    this.user.updateAttributes(body.User, function (err) {
+
+    var user = this.user;
+
+    // set vars
+    if( body.User ){
+        if( body.User.displayName ) user.displayName = body.User.displayName;
+        if( body.User.email ) user.email = body.User.email;
+        if( body.User.username ) user.username = body.User.username;
+        if( body.User.bio ) user.bio = body.User.bio;
+    }
+
+    // save
+    user.save( function (err, user, numberAffected) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -282,7 +306,7 @@ action(function update() {
                     flash('info', 'User updated');
                     redirect(path_to.user(user));
                 } else {
-                    flash('error', 'User can not be updated');
+                    flash('error', err.code + ': ' + err.err );
                     render('edit');
                 }
             });
@@ -291,7 +315,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.user.destroy(function (error) {
+    this.user.remove(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {
@@ -313,7 +337,7 @@ action(function destroy() {
 });
 
 function loadUser() {
-    User.find(params.id, function (err, user) {
+    User.findOne({ '_id': params.id }, function (err, user) {
         if (err || !user) {
             if (!err && !user && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});

@@ -1,6 +1,5 @@
 module.exports = function (compound) {
   var defaultModules = [
-      'jugglingdb',
       'co-assets-compiler',
       'compound-passport'
     ], developmentModules = [];
@@ -10,13 +9,13 @@ module.exports = function (compound) {
       'ejs-ext',
       'seedjs',
       'co-generators'
-    ]
+    ];
   }
 
   if (typeof window === 'undefined') {
     return defaultModules.concat(developmentModules).map(require);
   } else {
-    return []
+    return [];
   }
 };
 

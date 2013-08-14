@@ -121,7 +121,7 @@ action(function destroy() {
 });
 
 function loadTask() {
-    Task.find(params.id, function (err, task) {
+    Task.findOne({ '_id': params.id }, function (err, task) {
         if (err || !task) {
             if (!err && !task && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});

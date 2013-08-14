@@ -16,7 +16,7 @@ before(function requireManager() {
                 req.user = user;
                 next();
             } else {
-                flash('error', 'You have no permission to access this area');
+                //flash('error', 'You have no permission to access this area');
                 console.log('sem permissão');
                 //redirect('/');
                 next();

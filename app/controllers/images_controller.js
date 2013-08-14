@@ -9,17 +9,17 @@ before(loadImage, {
 
 action('new', function () {
     this.title = 'New image';
-    this.image = new Image;
+    this.image = new Image();
     render();
 });
 
 action(function create() {
     // handle file upload
-    this.image = new Image();
+    image = new Image();
     var tmpFile = req.files.Image.file;
 
     // upload
-    this.image.upload(tmpFile , function (err) {
+    image.upload(tmpFile , function (err) {
         if (err) {
             console.log(err);
             this.title = 'New file';
@@ -29,13 +29,11 @@ action(function create() {
             flash('info', 'File created');
         }
 
-
         // set creator id
-        this.image.creator(req.user.id);
+        image.author = req.user._id;
 
         // now create
-        this.image.save( function (err, image) {
-
+        image.save( function (err, image, numberAffected) {
             respondTo(function (format) {
                 format.json(function () {
                     if (err) {
@@ -58,29 +56,37 @@ action(function create() {
                 });
             });
         });
-
-    }.bind(this));
+    });
 
 });
 
 action(function index() {
     this.title = 'Images index';
 
+    Image
+        .find()
+        .limit(10)
+        .populate('author')
+        //.sort('-createdAt')
+        .exec( function (err, images) {
+            console.log(images);
+/*
     Image.all({order: 'createdAt DESC'}, function (err, images) {
         getAssociated(images, 'creator', false, 'image', function(results) {
             console.log(results);
+  */
             switch (params.format) {
                 case "json":
                     send({code: 200, data: images});
                     break;
                 default:
                     render({
-                        images: results
+                        images: images
                     });
             }
         });
-    });
 });
+
 
 action(function show() {
     this.title = 'Image show';
@@ -107,7 +113,14 @@ action(function edit() {
 action(function update() {
     var image = this.image;
     this.title = 'Edit image details';
-    this.image.updateAttributes(body.Image, function (err) {
+
+    var updateData = {};
+
+    if( body.Image ){
+      if( body.Image.description ) image.description = body.Image.description;
+    }
+
+    image.save( function (err, image, numberAffected) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -130,7 +143,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.image.destroy(function (error) {
+    this.image.remove(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {
@@ -152,7 +165,7 @@ action(function destroy() {
 });
 
 function loadImage() {
-    Image.find(params.id, function (err, image) {
+    Image.findOne({ '_id': params.id }, function (err, image) {
         if (err || !image) {
             if (!err && !image && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});

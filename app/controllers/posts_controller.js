@@ -6,7 +6,7 @@ before(loadPost, {
 
 action('new', function () {
     this.title = 'New post';
-    this.post = new Post;
+    this.post = new Post();
     render();
 });
 
@@ -57,22 +57,28 @@ action(function index() {
         if(req.user)
             user  = req.user;
 
-    Post.all({order: 'createdAt DESC'},function (err, posts) {
-        switch (params.format) {
-            case "json":
-                send({code: 200, data: posts});
-                break;
-            default:
-                render({
-                    user: user,
-                    posts: posts
-                });
-        }
+    Post
+        .find()
+        .limit(10)
+        //.sort('-createdAt')
+        .exec( function (err, posts) {
+            switch (params.format) {
+                case "json":
+                    send({code: 200, data: posts});
+                    break;
+                default:
+                    render({
+                        user: user,
+                        posts: posts
+                    });
+            }
     });
 });
 
 action(function show() {
     this.title = 'Post show';
+    //console.log(this.post);
+    console.log(req.user);
     switch(params.format) {
         case "json":
             send({code: 200, data: this.post});
@@ -96,7 +102,12 @@ action(function edit() {
 action(function update() {
     var post = this.post;
     this.title = 'Edit post details';
-    this.post.updateAttributes(body.Post, function (err) {
+
+    if( body.Post ){
+        if( body.Post.content ) post.content = body.Post.content;
+    }
+
+    post.save( function (err, post, numberAffected) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -119,7 +130,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.post.destroy(function (error) {
+    this.post.remove(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {
@@ -141,7 +152,7 @@ action(function destroy() {
 });
 
 function loadPost() {
-    Post.find(params.id, function (err, post) {
+    Post.findOne({ '_id': params.id }, function (err, post) {
         if (err || !post) {
             if (!err && !post && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});

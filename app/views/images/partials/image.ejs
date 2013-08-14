@@ -1,15 +1,15 @@
 <div class="image span3">
     <div class="header">
         Created by
-        <% if(image.creator){ %>
-          <%- link_to( image.creator.displayName,  pathTo.user(image.creator) ) %>
+        <% if(image.author){ %>
+          <%- link_to( image.author.getName(),  pathTo.user(image.author) ) %>
         <% } else { %>
             Anonimous
         <% } %>
     </div>
-        <%- link_to('<img src="/media/galleries/images/' + image.image.name + '">', pathTo.image(image.image) , {class: 'image-link'}) %>
+        <%- link_to('<img src="/media/galleries/images/' + image.name + '">', pathTo.image(image) , {class: 'image-link'}) %>
     <div class="footer">
-        <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_image(image.image), {class: 'btn btn-mini'}) %>
-        <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.image(image.image), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+        <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_image(image), {class: 'btn btn-mini'}) %>
+        <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.image(image), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
     </div>
 </div>

@@ -121,7 +121,7 @@ action(function destroy() {
 });
 
 function loadBoard() {
-    Board.find(params.id, function (err, board) {
+    Board.findOne({ '_id': params.id }, function (err, board) {
         if (err || !board) {
             if (!err && !board && params.format === 'json') {
                 return send({code: 404, error: 'Not found'});
