@@ -63,7 +63,7 @@ action(function index() {
         .find()
         .limit(10)
         .populate('author')
-        .sort('+createdAt')
+        .sort('-createdAt')
         .exec( function (err, posts) {
             switch (params.format) {
                 case "json":
