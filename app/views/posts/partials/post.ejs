@@ -1,11 +1,19 @@
-<div class="post span4">
+<div class="post span5">
     <header class="clearfix post-header">
-        <img class="avatar" src="/images/icons/user-avatar.png">
+        <a class="avatar thumbnail">
+            <img src="/images/icons/user-avatar.png">
+        </a>
         <h4 class="username">
-            <a>Alberto Souza</a>
+            <% if(post
+            .author){ %>
+              <%- link_to( post.author.getName(),  pathTo.user(post.author) ) %>
+            <% } else { %>
+                Anonymous
+            <% } %>
         </h4>
         <span class="subject">
-            <a>Compartilhada publicamente</a>  -  13/02/2013
+            <a>Compartilhada publicamente</a>  -
+            <%= post.createdAt %>
         </span>
     </header>
     <div class="content">
@@ -13,6 +21,17 @@
        Content:  <%= post.content %> <br>
     </div>
     <div class="footer">
+        <div class="actions">
+            <span class="social pull-left">
+                <a class="btn btn-mini "><i class="icon-thumbs-up"></i></a>
+                <a class="btn btn-mini "><i class="icon-thumbs-down"></i></a>
+            </span>
+
+            <a class="btn btn-mini"><i class="icon-share-alt"></i> Share</a>
+            <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini'}) %>
+            <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+        </div>
+
         <div class="comments">
 
         </div>

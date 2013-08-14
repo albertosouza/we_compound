@@ -62,6 +62,7 @@ action(function index() {
     Post
         .find()
         .limit(10)
+        .populate('author')
         .sort('+createdAt')
         .exec( function (err, posts) {
             switch (params.format) {

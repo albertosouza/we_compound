@@ -4,7 +4,7 @@
         <% if(image.author){ %>
           <%- link_to( image.author.getName(),  pathTo.user(image.author) ) %>
         <% } else { %>
-            Anonimous
+            Anonymous
         <% } %>
     </div>
         <%- link_to('<img src="/media/galleries/images/' + image.name + '">', pathTo.image(image) , {class: 'image-link'}) %>

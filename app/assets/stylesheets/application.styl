@@ -2,10 +2,8 @@
 $bgColor = white
 $footerBG = #f0f0f0
 
-
 body
   background: $bgColor
-
 
 .middle-container
   margin-top: 50px
@@ -80,41 +78,43 @@ body
 
 .share-box-area
   border: 1px #ccc solid
-  padding: 9px 9px 0px 9px
-  margin: 5px
-  -moz-box-shadow: -3px 5px 19px #CCC
-  -webkit-box-shadow: -3px 5px 19px #CCC
-  box-shadow: -3px 5px 19px #CCC
+  padding: 15px
 
 .share-box-area, .post
-  -moz-box-shadow: -3px 5px 19px #CCC
-  -webkit-box-shadow: -3px 5px 19px #CCC
-  box-shadow: -3px 5px 19px #CCC
+  -moz-box-shadow:  0px 0px 4px #CCC
+  -webkit-box-shadow:  0px 0px 4px #CCC
+  box-shadow:  0px 0px 4px #CCC
 
 // POST
 
 .posts
   margin-bottom: 20px
 
-.post header .avatar
-  float: left
-  margin: 0px 10px 3px 0px
-  padding: 3px
-
 .post
   padding: 15px
   margin-top: 20px
-  header h4
-    margin: 0px
+  header
+    .thumbnail
+      float:left
+    .avatar
+      margin: 0px 10px 3px 0px
+    h4
+      margin: 0px
+
   div.content
     padding-bottom: 15px
     border-bottom: 1px solid #ccc
   div.footer
-    margin: 15px 0px 15px 0px
-  div.footer .comment-add .comment-add-buttom
-    margin: 0px 10px 0px 35px
-    padding: 5px
-    background-color: $footerBG
+    margin: 10px 0px 15px 0px
+    .actions
+      margin-bottom: 10px
+      text-align: right
+    .comment-add
+      .comment-add-buttom
+        margin: 0px 10px 0px 35px
+        padding: 5px
+        background-color: $footerBG
+
 
 
 // messenger
@@ -148,3 +148,4 @@ div.messenger-off
     vertical-align:middle
   .text
     margin-left: 10px
+
