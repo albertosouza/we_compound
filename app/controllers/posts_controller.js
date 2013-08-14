@@ -11,15 +11,17 @@ action('new', function () {
 });
 
 action(function create() {
-    // istantiate a new post
     var post = new Post();
 
-    post.content = req.body.Post.content;
+    // set vars
+    if(req.body.Post){
+        post.content = req.body.Post.content;
+    }
 
-    // set creator if user is authenticated
+    // set author if user is authenticated
     if(req)
         if(req.isAuthenticated())
-            post.author(req.user.id);
+            post.author = req.user._id;
 
     post.save(function (err, post) {
         respondTo(function (format) {
@@ -60,7 +62,7 @@ action(function index() {
     Post
         .find()
         .limit(10)
-        //.sort('-createdAt')
+        .sort('+createdAt')
         .exec( function (err, posts) {
             switch (params.format) {
                 case "json":
@@ -72,7 +74,7 @@ action(function index() {
                         posts: posts
                     });
             }
-    });
+        });
 });
 
 action(function show() {
@@ -103,11 +105,11 @@ action(function update() {
     var post = this.post;
     this.title = 'Edit post details';
 
-    if( body.Post ){
-        if( body.Post.content ) post.content = body.Post.content;
+    if( req.body.Post ){
+        req.post.content = req.body.Post.content;
     }
 
-    post.save( function (err, post, numberAffected) {
+    this.post.save( function (err, post) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {

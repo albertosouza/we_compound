@@ -6,14 +6,24 @@ before(loadList, {
 
 action('new', function () {
     this.title = 'New list';
-    this.list = new List;
+    this.list = new List();
     render();
 });
 
 action(function create() {
-	console.log(req.body.List);
+    var list = new List();
 
-    List.create(req.body.List, function (err, list) {
+    if(req.body.List){
+        list.title = req.body.List.title;
+        list.description = req.body.List.description;
+    }
+
+    // set author if user is authenticated
+    if(req)
+        if(req.isAuthenticated())
+            list.author = req.user._id;
+
+    list.save( function (err, list) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -40,16 +50,21 @@ action(function create() {
 
 action(function index() {
     this.title = 'Lists index';
-    List.all(function (err, lists) {
-        switch (params.format) {
-            case "json":
-                send({code: 200, data: lists});
-                break;
-            default:
-                render({
-                    lists: lists
-                });
-        }
+
+    List
+        .find()
+        .limit(10)
+       // .sort('+createdAt')
+        .exec( function (err, lists) {
+            switch (params.format) {
+                case "json":
+                    send({code: 200, data: lists});
+                    break;
+                default:
+                    render({
+                        lists: lists
+                    });
+            }
     });
 });
 
@@ -78,7 +93,13 @@ action(function edit() {
 action(function update() {
     var list = this.list;
     this.title = 'Edit list details';
-    this.list.updateAttributes(body.List, function (err) {
+
+    if(req.body.List){
+        list.title = req.body.List.title;
+        list.description = req.body.List.description;
+    }
+
+    list.save( function (err, list) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -101,7 +122,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.list.destroy(function (error) {
+    this.list.remove(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {

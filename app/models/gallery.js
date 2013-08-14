@@ -4,11 +4,13 @@ module.exports = function (compound, Gallery) {
   //- RELATIONS -//
 
   //- Methods -//
-  /*
-  Gallery.beforeCreate = function(next, Gallery) {
-      // set created date
-      data.createdAt = new Date();
+  //- Methods -//
+  Gallery.schema.pre('save', function (next) {
+      if (!this.createdAt){
+        this.createdAt = new Date();
+      } else {
+        this.updatedAt = new Date();
+      }
       next();
-  };
-  */
+  });
 };

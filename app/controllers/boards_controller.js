@@ -6,12 +6,20 @@ before(loadBoard, {
 
 action('new', function () {
     this.title = 'New board';
-    this.board = new Board;
+    this.board = new Board();
     render();
 });
 
 action(function create() {
-    Board.create(req.body.Board, function (err, board) {
+    var board = new Board();
+
+    // set vars
+    if( req.body.Board ){
+        board.title = req.body.Board.title;
+        board.description = req.body.Board.description;
+    }
+
+    board.save( function (err, board) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -38,17 +46,22 @@ action(function create() {
 
 action(function index() {
     this.title = 'Boards index';
-    Board.all(function (err, boards) {
-        switch (params.format) {
-            case "json":
-                send({code: 200, data: boards});
-                break;
-            default:
-                render({
-                    boards: boards
-                });
-        }
-    });
+
+    Board
+        .find()
+        .limit(10)
+        //.sort('-createdAt')
+        .exec( function (err, boards) {
+            switch (params.format) {
+                case "json":
+                    send({code: 200, data: boards});
+                    break;
+                default:
+                    render({
+                        boards: boards
+                    });
+            }
+        });
 });
 
 action(function show() {
@@ -76,7 +89,14 @@ action(function edit() {
 action(function update() {
     var board = this.board;
     this.title = 'Edit board details';
-    this.board.updateAttributes(body.Board, function (err) {
+
+    // set vars
+    if( req.body.Board ){
+        board.title = req.body.Board.title;
+        board.description = req.body.Board.description;
+    }
+
+    board.save( function (err, board, numberAffected) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -99,7 +119,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.board.destroy(function (error) {
+    this.board.remove(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {

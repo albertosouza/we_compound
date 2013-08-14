@@ -6,12 +6,24 @@ before(loadGallery, {
 
 action('new', function () {
     this.title = 'New gallery';
-    this.gallery = new Gallery;
+    this.gallery = new Gallery();
     render();
 });
 
 action(function create() {
-    Gallery.create(req.body.Gallery, function (err, gallery) {
+    var gallery = new Gallery();
+
+    if(req.body.Gallery){
+        gallery.name = req.body.Gallery.name;
+        gallery.description = req.body.Gallery.description;
+    }
+
+    // set author if user is authenticated
+    if(req)
+        if(req.isAuthenticated())
+            gallery.author = req.user._id;
+
+    gallery.save( function (err, gallery) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -38,16 +50,21 @@ action(function create() {
 
 action(function index() {
     this.title = 'Gallerys index';
-    Gallery.all(function (err, galleries) {
-        switch (params.format) {
-            case "json":
-                send({code: 200, data: galleries});
-                break;
-            default:
-                render({
-                    galleries: galleries
-                });
-        }
+
+    Gallery
+        .find()
+        .limit(10)
+        .sort('+createdAt')
+        .exec( function (err, galleries) {
+            switch (params.format) {
+                case "json":
+                    send({code: 200, data: galleries});
+                    break;
+                default:
+                    render({
+                        galleries: galleries
+                    });
+            }
     });
 });
 
@@ -76,7 +93,13 @@ action(function edit() {
 action(function update() {
     var gallery = this.gallery;
     this.title = 'Edit gallery details';
-    this.gallery.updateAttributes(body.Gallery, function (err) {
+
+    if(req.body.Gallery){
+        gallery.name = req.body.Gallery.name;
+        gallery.description = req.body.Gallery.description;
+    }
+
+    this.gallery.save( function (err, gallery) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -99,7 +122,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.gallery.destroy(function (error) {
+    this.gallery.remove(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {

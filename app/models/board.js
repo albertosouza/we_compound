@@ -4,12 +4,17 @@ module.exports = function (compound, Board) {
 	//- Prototype -//
 
 	//- Methods -//
-	Board.beforeCreate = function(next, data) {
-		// set created date
-		data.createdAt = new Date();
+  Board.schema.pre('save', function (next) {
+      if (!this.createdAt){
+        this.createdAt = new Date();
+      } else {
+        this.updatedAt = new Date();
+      }
 
-		next();
-	};
+      var user = this;
+
+      next();
+  });
 
   //- Validations -//
 

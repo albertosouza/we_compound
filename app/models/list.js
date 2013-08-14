@@ -5,10 +5,13 @@ module.exports = function (compound, List) {
   //- Prototypes -//
 
   //- Methods -//
-	List.beforeCreate = function(next, data) {
-    // set created date
-    data.createdAt = new Date();
-
+  List.schema.pre('save', function (next) {
+    if (this.isNew){
+      this.createdAt = new Date();
+    } else {
+      this.updatedAt = new Date();
+    }
     next();
-	};
+  });
+
 };

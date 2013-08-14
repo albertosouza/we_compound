@@ -4,10 +4,13 @@ module.exports = function (compound, Task) {
   //- RELATIONS -//
 
   //- Methods -//
-  Task.beforeCreate = function(next, data) {
-    // set created date
-    data.createdAt = new Date();
-
+  Task.schema.pre('save', function (next) {
+    if (this.isNew){
+      this.createdAt = new Date();
+    } else {
+      this.updatedAt = new Date();
+    }
     next();
-  };
+  });
+
 };

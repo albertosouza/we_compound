@@ -11,7 +11,19 @@ action('new', function () {
 });
 
 action(function create() {
-    Task.create(req.body.Task, function (err, task) {
+    var task = new Task();
+
+    if( req.body.Task ){
+        task.title = req.body.Task.title;
+        task.description = req.body.Task.description;
+    }
+
+    // set author if user is authenticated
+    if(req)
+        if(req.isAuthenticated())
+            task.author = req.user._id;
+
+    task.save(function (err, task) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -38,16 +50,21 @@ action(function create() {
 
 action(function index() {
     this.title = 'Tasks index';
-    Task.all(function (err, tasks) {
-        switch (params.format) {
-            case "json":
-                send({code: 200, data: tasks});
-                break;
-            default:
-                render({
-                    tasks: tasks
-                });
-        }
+
+     Task
+        .find()
+        .limit(10)
+       // .sort('+createdAt')
+        .exec( function (err, tasks) {
+            switch (params.format) {
+                case "json":
+                    send({code: 200, data: tasks});
+                    break;
+                default:
+                    render({
+                        tasks: tasks
+                    });
+            }
     });
 });
 
@@ -76,7 +93,14 @@ action(function edit() {
 action(function update() {
     var task = this.task;
     this.title = 'Edit task details';
-    this.task.updateAttributes(body.Task, function (err) {
+
+
+    if( req.body.Task ){
+        task.title = req.body.Task.title;
+        task.description = req.body.Task.description;
+    }
+
+    task.save( function (err, task, numberAffected) {
         respondTo(function (format) {
             format.json(function () {
                 if (err) {
@@ -99,7 +123,7 @@ action(function update() {
 });
 
 action(function destroy() {
-    this.task.destroy(function (error) {
+    this.task.remove(function (error) {
         respondTo(function (format) {
             format.json(function () {
                 if (error) {

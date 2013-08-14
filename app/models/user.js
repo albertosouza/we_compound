@@ -34,9 +34,6 @@ module.exports = function (compound, User) {
         } else {
           this.updatedAt = new Date();
         }
-
-        var user = this;
-
         next();
     });
 

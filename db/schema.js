@@ -9,7 +9,8 @@ module.exports = function (mongoose, compound) {
         active: {
             type: Boolean,
             default: true
-        }
+        },
+        author: { type: ObjectId, ref: 'User' }
     }));
 
     // expose model name for view helpers (resource-based helpers like formFor)
@@ -24,7 +25,8 @@ module.exports = function (mongoose, compound) {
         active: {
             type: Boolean,
             default: true
-        }
+        },
+        author: { type: ObjectId, ref: 'User' }
     }));
 
     List.modelName = 'List';
@@ -41,7 +43,8 @@ module.exports = function (mongoose, compound) {
         active: {
             type: Boolean,
             default: true
-        }
+        },
+        author: { type: ObjectId, ref: 'User' }
     }));
 
     Task.modelName = 'Task';
@@ -87,11 +90,11 @@ module.exports = function (mongoose, compound) {
     User.modelName = 'User';
     compound.models.User = User;
 
-
     var Post = mongoose.model('Post', mongoose.Schema({
         content: String,
         createdAt: Date,
-        updatedAt: Date
+        updatedAt: Date,
+        author: { type: ObjectId, ref: 'User' }
     }));
 
     Post.modelName = 'Post';
@@ -114,71 +117,14 @@ module.exports = function (mongoose, compound) {
     compound.models.Image = Image;
 
 
-/*
-    var Board = describe('Board', function () {
-        property('title', String);
-        property('description', Text);
-        property('createdAt', Date);
-        property('active', Boolean, {default: true});
-        set('restPath', pathTo.boards);
-    });
+    var Gallery = mongoose.model('Gallery', mongoose.Schema({
+        name: String,
+        description: String,
+        createdAt: Date,
+        author: { type: ObjectId, ref: 'User' }
+     }));
 
-    var List = describe('List', function () {
-        property('title', String);
-        property('description', Text);
-        property('createdAt', Date);
-        property('active', Boolean, {default: true});
-        set('restPath', pathTo.lists);
-    });
+    Gallery.modelName = 'Gallery';
+    compound.models.Gallery = Gallery;
 
-    var Task = describe('Task', function () {
-        property('title', String);
-        property('description', Text);
-        property('createdAt', Date);
-        property('deadline', Date);
-        property('active', Boolean, {default: true});
-        set('restPath', pathTo.tasks);
-    });
-
-    var User = describe('User', function () {
-        property('username', String);
-        property('displayName', String);
-        property('email', String, {required: true}, {index: true });
-        property('password', String);
-        property('bio', String);
-        property('googleId', String, {index: true} );
-        property('githubId', String, {index: true} );
-        property('linkedinId', String, {index: true} );
-        property('createdAt', Date);
-        property('activated', Boolean, {default: true} );
-        set('restPath', pathTo.users);
-    });
-
-    var Gallery = describe('Gallery', function () {
-        property('name', String);
-        property('description', Text);
-        property('createdAt', Date);
-        set('restPath', pathTo.galleries);
-    });
-
-    var Image = describe('Image', function () {
-        property('name', String);
-        property('description', String);
-        property('fileName', String);
-        property('type', String);
-        property('length', Number);
-        property('width', Number);
-        property('height', Number);
-        property('systemName', String);
-        property('uploadDate', Date);
-        set('restPath', pathTo.images);
-    });
-
-    var Post = describe('Post', function () {
-        property('content', String);
-        property('createdAt', Date);
-        property('updatedAt', Date);
-        set('restPath', pathTo.posts);
-    });
-*/
 };
