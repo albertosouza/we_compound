@@ -80,8 +80,7 @@ action(function index() {
 
 action(function show() {
     this.title = 'Post show';
-    //console.log(this.post);
-    console.log(req.user);
+
     switch(params.format) {
         case "json":
             send({code: 200, data: this.post});
