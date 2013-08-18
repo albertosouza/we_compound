@@ -1,3 +1,12 @@
+# auto generated client side assets
+public/javascripts/angular-controller.js
+public/javascripts/application.js
+public/javascripts/messenger.js
+public/stylesheets/application.css
+
+
+##
+
 dump.rdb
 lib-cov
 *.log
