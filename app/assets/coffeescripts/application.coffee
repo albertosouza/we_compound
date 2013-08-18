@@ -1,7 +1,7 @@
 ###
   Add your application's coffee-script code here
 ###
-#oi
+
 jQuery ->
     jQuery("#Board_createdAt").datepicker()
 
@@ -23,20 +23,3 @@ jQuery ->
            ]
         })
         return false
-
-
-### Sharebox ( post ) ###
-
-window.shareboxController = ($scope)->
-  $scope.list = []
-  $scope.text = 'hello'
-
-  # on submit do this
-  $scope.submit = () ->
-    console.log this
-    console.log this.action
-    if this.text
-      this.list.push(this.text);
-      this.text = '';
-
-

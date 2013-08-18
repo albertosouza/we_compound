@@ -1,29 +1,35 @@
 <div class="share-box-area span5">
 
-<% form_for(post, {action: path_to.posts(), 'ng-submit': 'submit()', 'ng-controller': 'shareboxController'}, function (form) { %>
+<% form_for(post, {action: path_to.posts(), method: 'POST', 'ng-submit': 'submit()', 'ng-controller': 'shareboxController', class: 'sharebox'}, function (form) { %>
 
-  <div>
+  <%- errorMessagesFor(post) %>
 
-        <%- form.textarea('content', {class: 'post-content'}) %>
-
-  </div>
-  <div >
-    <span>Images</span>
-    <span>Link</span>
-    <span>Events</span>
+  <div class="control-group">
+     <%- form.label("content", 'What is happening?', {class: "control-label"}) %>
+     <div class="controls">
+         <%- form.textarea('content', {class: 'post-content', 'ng-model': 'Post.content'}) %>
+     </div>
   </div>
 
+  <div class="attach-options" >
+    <span><a class="btn btn-mini"><i class="icon-picture"></i> Images</a></span>
+    <span><a class="btn btn-mini"><i class="icon-bookmark"></i> Link</a></span>
+  </div>
 
-    <div>
-        <%- form.input('to') %>
+  <div class="footer">
+
+    <div class="control-group">
+       <div class="controls">
+           <%- form.input("to") %>
+       </div>
     </div>
 
-    <div>
+    <div class="actions">
       <%- form.submit('<i class="icon-ok icon-white"></i> Share', {class: 'btn btn-primary'}) %>
        or
-   <%- linkTo('Cancel', pathTo.posts(), {class: 'btn'}) %>
+      <%- linkTo('Cancel', pathTo.posts(), {class: 'btn cancel'}) %>
     </div>
-
+  </div>
 
 
 
