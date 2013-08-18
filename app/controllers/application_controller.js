@@ -6,7 +6,6 @@ before('protect from forgery', function () {
 before(function requireManager() {
 
     if (!session.passport.user) {
-        console.log('deslogado');
         req.session.redirect = req.path;
         next();
         //redirect('/auth/google');
