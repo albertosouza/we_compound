@@ -1,0 +1,10 @@
+en:
+  session:
+    new: "Sign in"
+    destroy: "Sign out"
+  user:
+    new: "Sign up"
+    destroy: "Cancel my account"
+    welcome: "Hello %, howdy?"
+    validation:
+      name: "Username required"

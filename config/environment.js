@@ -27,7 +27,7 @@ module.exports = function (compound) {
                 auto_reconnect: true
             })
         }));
-
+        app.set('defaultLocale', 'en');
         app.use(express.methodOverride());
         app.use(app.router);
     });

@@ -2,7 +2,6 @@ before('protect from forgery', function () {
   protectFromForgery('27d24dd78c2f8c8c2d762e2908409f227a655032');
 });
 
-
 before(function requireManager() {
 
     if (!session.passport.user) {
@@ -24,10 +23,23 @@ before(function requireManager() {
     }
 });
 
+
+/**
+ * Localization
+ */
+function setUserLocale () {
+    // define locale from user settings, or from headers or use default
+    var locale = req.user ? req.user.locale : 'en';
+    // call global function setLocale
+    setLocale(locale);
+
+}
+
+before(setUserLocale, {});
+
+
 // Publish methods for use in other controllers.
 publish('getAssociated', getAssociated);
-
-
 
 /**
  * Joins associated models and allows them to be accessed like:

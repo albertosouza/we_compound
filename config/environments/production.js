@@ -7,5 +7,6 @@ module.exports = function (compound) {
         app.disable('assets timestamps');
         app.use(require('express').errorHandler());
         app.settings.quiet = true;
+        app.set('translationMissing', 'default');
     });
 };

@@ -1,0 +1,9 @@
+pt-br:
+  session:
+    new: "Sign in"
+    destroy: "Deslogar"
+  user:
+    new: "Sign up"
+    destroy: "Cancelar a minha conta"
+    welcome: "Hello %, howdy?"
+
