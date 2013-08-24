@@ -6,6 +6,11 @@ weApp = angular.module( 'weApp', [ 'ngResource' ]  )
 # register a new service
 weApp.value('appName', 'weApp');
 
+
+weApp.config ["$httpProvider", (provider)->
+      provider.defaults.headers.common['X-CSRF-Token'] = jQuery('meta[name=csrf-token]').attr('content')
+]
+
 ###
   SERVICES
 ###
@@ -19,7 +24,6 @@ weApp.factory 'getAuthenticityToken', ->
 
 weApp.factory 'PostsResource', ['$resource', ($resource) ->
   PostsResource = $resource('/posts/:id.json', {
-
   }, {
     # Define methods on the Station object
 
@@ -31,7 +35,8 @@ weApp.factory 'PostsResource', ['$resource', ($resource) ->
     # Invoke as: Station.location({id: 123})
     #location: {method: 'GET', params: {memberRoute: 'location'}}
   })
-  return PostsResource
+
+  PostsResource
 ]
 
 ###
@@ -42,21 +47,14 @@ weApp.controller 'postsController',['$scope', '$http', 'PostsResource', ($scope 
 
   $scope.posts = []
 
-  $oposts = PostsResource.query ->
-    console.log $oposts
-
   $scope.load = ->
-    $http.get("/posts.json").success( (data, status, headers, config) ->
-        if status == 200
-          $scope.posts = data
-        else
-          console.log status
-    ).error( (data, status, headers, config) ->
-        console.log data
-    )
+    posts = PostsResource.query ->
+      $scope.posts = posts
 
   #initial load
   $scope.load()
+
+  #$scope.PostsAutoload = setInterval($scope.load,10000);
 
 ]
 
@@ -100,22 +98,20 @@ weApp.controller 'postController',['$scope', '$http', 'getAuthenticityToken', ($
         )
 ]
 
-weApp.controller 'shareboxController',['$scope', '$http', 'getAuthenticityToken', ($scope , $http, getAuthenticityToken)->
+weApp.controller 'shareboxController',['$scope', '$http', 'getAuthenticityToken', 'PostsResource', ($scope , $http, getAuthenticityToken, PostsResource)->
   # on submit do this
-  $scope.submit = () ->
-    $http.post("/posts.json",{
-      Post: this.Post,
-      authenticity_token: getAuthenticityToken()
 
-    }).success( (data, status, headers, config) ->
-        console.log data
-        console.log status
-    ).error( (data, status, headers, config) ->
-        console.log data
+  $scope.submit = ()->
+    # TODO change post server receive to accept oly attributes and remove 'Post' from next line
+    post = new PostsResource { 'Post': $scope.Post }
+    post.$save( (data,headers)->
+      jQuery( 'div.share-box-area .footer' ).hide()
+      jQuery( 'div.share-box-area textarea' ).val('')
+    ,
+    (err,headers)->
+      # TODO need error handler here
     )
 ]
-
-
 
 jQuery ->
   #disable submits for angular forms
