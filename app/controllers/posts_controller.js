@@ -67,7 +67,7 @@ action(function index() {
         .exec( function (err, posts) {
             switch (params.format) {
                 case "json":
-                    send({code: 200, data: posts});
+                    send(posts);
                     break;
                 default:
                     render({

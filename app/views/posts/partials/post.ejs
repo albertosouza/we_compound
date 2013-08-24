@@ -27,9 +27,9 @@
                 <a class="btn btn-mini "><i class="icon-thumbs-down"></i></a>
             </span>
 
-            <a class="btn btn-mini"><i class="icon-share-alt"></i> Share</a>
-            <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini'}) %>
-            <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
+            <a class="btn btn-mini" data-ng-click="share($event)"><i class="icon-share-alt"></i> Share</a>
+            <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini', 'data-ng-click':'edit($event)' }) %>
+            <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', 'data-ng-click':'delete($event)' , remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
         </div>
 
         <div class="comments">

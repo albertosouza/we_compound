@@ -11,12 +11,72 @@ weApp.value('appName', 'weApp');
 ###
 weApp.factory 'getAuthenticityToken', ->
   ->
-    jQuery("meta[name=csrf-param").attr('content')
+    jQuery("meta[name=csrf-token").attr('content')
 
 ###
   Controllers
 ###
 
+weApp.controller 'postsController',['$scope', '$http', ($scope , $http)->
+
+  $scope.posts = []
+
+  $scope.load = ->
+    $http.get("/posts.json").success( (data, status, headers, config) ->
+        if status == 200
+          $scope.posts = data
+        else
+          console.log status
+    ).error( (data, status, headers, config) ->
+        console.log data
+    )
+
+  #initial load
+  $scope.load()
+
+
+
+]
+
+weApp.controller 'postController',['$scope', '$http', 'getAuthenticityToken', ($scope , $http, getAuthenticityToken)->
+
+  $scope.init = (id)->
+    $scope.Post.id = id
+
+  $scope.up = ()->
+    console.log 'up'
+
+  $scope.down = ()->
+    console.log 'down'
+
+  $scope.share = ()->
+    console.log 'share'
+
+  $scope.edit = (event)->
+    event.preventDefault()
+    event.stopPropagation()
+    console.log $scope
+    console.log 'edit'
+
+  $scope.delete = (event)->
+    event.preventDefault()
+    event.stopPropagation()
+    console.log 'delete'
+    if confirm 'Permanently delete this post?'
+      $http.delete("/posts/" + $scope.Post.id + ".json",{
+          params: {
+            authenticity_token: getAuthenticityToken()
+          }
+
+        }).success( (data, status, headers, config) ->
+          if status == 200
+            console.log 'deleted'
+          console.log data
+          console.log status
+        ).error( (data, status, headers, config) ->
+            console.log data
+        )
+]
 
 weApp.controller 'shareboxController',['$scope', '$http', 'getAuthenticityToken', ($scope , $http, getAuthenticityToken)->
   # on submit do this
