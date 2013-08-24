@@ -1,7 +1,7 @@
 # WE Angular
 
 # MODULE
-weApp = angular.module( 'weApp', [] )
+weApp = angular.module( 'weApp', [ 'ngResource' ]  )
 
 # register a new service
 weApp.value('appName', 'weApp');
@@ -14,12 +14,36 @@ weApp.factory 'getAuthenticityToken', ->
     jQuery("meta[name=csrf-token").attr('content')
 
 ###
+  Resources
+###
+
+weApp.factory 'PostsResource', ['$resource', ($resource) ->
+  PostsResource = $resource('/posts/:id.json', {
+
+  }, {
+    # Define methods on the Station object
+
+    # /stations/autocomplete?term=Pra
+    # Invoke as: Station.autocomplete({term: 'Pra'})
+    #autocomplete: {method: 'GET', isArray: true, params: {collectionRoute: 'autocomplete'}}
+
+    # /stations/123/location
+    # Invoke as: Station.location({id: 123})
+    #location: {method: 'GET', params: {memberRoute: 'location'}}
+  })
+  return PostsResource
+]
+
+###
   Controllers
 ###
 
-weApp.controller 'postsController',['$scope', '$http', ($scope , $http)->
+weApp.controller 'postsController',['$scope', '$http', 'PostsResource', ($scope , $http, PostsResource)->
 
   $scope.posts = []
+
+  $oposts = PostsResource.query ->
+    console.log $oposts
 
   $scope.load = ->
     $http.get("/posts.json").success( (data, status, headers, config) ->
@@ -33,8 +57,6 @@ weApp.controller 'postsController',['$scope', '$http', ($scope , $http)->
 
   #initial load
   $scope.load()
-
-
 
 ]
 
