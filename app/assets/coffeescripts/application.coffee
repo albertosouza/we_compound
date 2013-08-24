@@ -1,7 +1,7 @@
-###
-  Add your application's coffee-script code here
-###
 
+###
+  Jquery's
+###
 jQuery ->
     jQuery("#Board_createdAt").datepicker()
 

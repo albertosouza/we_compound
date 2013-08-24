@@ -1,15 +1,29 @@
-# WE Angular controllers
+# WE Angular
 
-### Sharebox ( post ) ###
+# MODULE
+weApp = angular.module( 'weApp', [] )
 
-# sharebox controller
-window.shareboxController = ($scope, $http)->
-  console.log $scope
+# register a new service
+weApp.value('appName', 'weApp');
+
+###
+  SERVICES
+###
+weApp.factory 'getAuthenticityToken', ->
+  ->
+    jQuery("meta[name=csrf-param").attr('content')
+
+###
+  Controllers
+###
+
+
+weApp.controller 'shareboxController',['$scope', '$http', 'getAuthenticityToken', ($scope , $http, getAuthenticityToken)->
   # on submit do this
   $scope.submit = () ->
     $http.post("/posts.json",{
       Post: this.Post,
-      authenticity_token: jQuery('input[name=authenticity_token]').val()
+      authenticity_token: getAuthenticityToken()
 
     }).success( (data, status, headers, config) ->
         console.log data
@@ -17,6 +31,9 @@ window.shareboxController = ($scope, $http)->
     ).error( (data, status, headers, config) ->
         console.log data
     )
+]
+
+
 
 jQuery ->
   #disable submits for angular forms
