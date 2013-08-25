@@ -1,6 +1,9 @@
 {
   "name": "we",
   "version": "0.0.1",
+  "author": {
+      "name": "Alberto Souza"
+  },
   "engines": [
     "node >= 0.8.0"
   ],
