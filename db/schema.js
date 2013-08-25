@@ -50,8 +50,7 @@ module.exports = function (mongoose, compound) {
     Task.modelName = 'Task';
     compound.models.Task = Task;
 
-
-   var User = mongoose.model('User', mongoose.Schema({
+    var UserSchema = mongoose.Schema({
         username: {
             type: String,
             unique: true
@@ -85,7 +84,14 @@ module.exports = function (mongoose, compound) {
         },
 
         images : [{ type: ObjectId, ref: 'Image' }]
-    }));
+    });
+
+    UserSchema.virtual('password').get(function () {
+        if(this.cryptedPassword) return this.cryptedPassword;
+        return '';
+    });
+
+   var User = mongoose.model('User', UserSchema);
 
     User.modelName = 'User';
     compound.models.User = User;

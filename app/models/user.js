@@ -3,7 +3,6 @@ module.exports = function (compound, User) {
     var bcrypt = require('bcrypt'),
     SALT_WORK_FACTOR = 10;
 
-
     //- PROTOTyPES -//
     User.prototype.setPassword = function (password, done) {
         var _this = this;
@@ -53,6 +52,7 @@ module.exports = function (compound, User) {
 
     // verify user password
     User.verifyPassword = function (password, cryptedPassword) {
+
         var isMatch = bcrypt.compareSync(password, cryptedPassword);
         return isMatch;
     };
@@ -85,7 +85,14 @@ module.exports = function (compound, User) {
 
     /* GOOGLE OPENID */
     if (data.openId) {
-        User.findOne({ 'googleId': data.openId }, function (err, user) {
+
+        var email = data.profile.emails[0].value;
+
+        User.findOne({ $or: [ {'googleId': data.openId}, {'email': email } ] }, function (err, user) {
+            if(!user.googleId){
+                user.googleId = data.openId;
+            }
+
             if (user) return done(err, user);
             User.create({
                 displayName: data.profile.displayName,
