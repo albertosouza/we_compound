@@ -96,12 +96,18 @@ module.exports = function (mongoose, compound) {
     User.modelName = 'User';
     compound.models.User = User;
 
-    var Post = mongoose.model('Post', mongoose.Schema({
+    var PostSchema = mongoose.Schema({
         content: String,
         createdAt: Date,
         updatedAt: Date,
         author: { type: ObjectId, ref: 'User' }
-    }));
+    })
+
+    PostSchema.set('toJSON', {
+        virtuals: true
+    });
+
+    var Post = mongoose.model('Post', PostSchema);
 
     Post.modelName = 'Post';
     compound.models.Post = Post;
