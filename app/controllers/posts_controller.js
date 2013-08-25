@@ -62,12 +62,12 @@ action(function index() {
     Post
         .find()
         .limit(10)
-        .populate('author')
         .sort('-createdAt')
+        .populate('author','bio createdAt displayName username images')
         .exec( function (err, posts) {
             switch (params.format) {
                 case "json":
-                    send(posts);
+                    send( posts );
                     break;
                 default:
                     render({

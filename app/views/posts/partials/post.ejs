@@ -1,43 +1,41 @@
-<div class="post span5">
-    <header class="clearfix post-header">
-        <a class="avatar thumbnail">
-            <img src="/images/icons/user-avatar.png">
-        </a>
-        <h4 class="username">
-            <% if(post
-            .author){ %>
-              <%- link_to( post.author.getName(),  pathTo.user(post.author) ) %>
-            <% } else { %>
-                Anonymous
-            <% } %>
-        </h4>
-        <span class="subject">
-            <a>Compartilhada publicamente</a>  -
-            <%= post.createdAt %>
+<header class="clearfix post-header">
+    <a class="avatar thumbnail">
+        <img src="/images/icons/user-avatar.png">
+    </a>
+    <h4 class="username">
+        <% if(post
+        .author){ %>
+          <%- link_to( post.author.getName(),  pathTo.user(post.author) ) %>
+        <% } else { %>
+            Anonymous
+        <% } %>
+    </h4>
+    <span class="subject">
+        <a>Compartilhada publicamente</a>  -
+        <%= post.createdAt %>
+    </span>
+</header>
+<div class="content">
+   Id: <%= post.id %> <br>
+   Content:  <%= post.content %> <br>
+</div>
+<div class="footer">
+    <div class="actions">
+        <span class="social pull-left">
+            <a class="btn btn-mini "><i class="icon-thumbs-up"></i></a>
+            <a class="btn btn-mini "><i class="icon-thumbs-down"></i></a>
         </span>
-    </header>
-    <div class="content">
-       Id: <%= post.id %> <br>
-       Content:  <%= post.content %> <br>
+
+        <a class="btn btn-mini" data-ng-click="share($event)"><i class="icon-share-alt"></i> Share</a>
+        <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini', 'data-ng-click':'edit($event)' }) %>
+        <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', 'data-ng-click':'delete($event)' , remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
     </div>
-    <div class="footer">
-        <div class="actions">
-            <span class="social pull-left">
-                <a class="btn btn-mini "><i class="icon-thumbs-up"></i></a>
-                <a class="btn btn-mini "><i class="icon-thumbs-down"></i></a>
-            </span>
 
-            <a class="btn btn-mini" data-ng-click="share($event)"><i class="icon-share-alt"></i> Share</a>
-            <%- link_to('<i class="icon-edit"></i> Edit', pathTo.edit_post(post), {class: 'btn btn-mini', 'data-ng-click':'edit($event)' }) %>
-            <%- link_to('<i class="icon-remove icon-white"></i> Delete', pathTo.post(post), {class: 'btn btn-mini btn-danger', method: 'delete', 'data-ng-click':'delete($event)' , remote: true, jsonp: '(function (u) {location.href = u;})'}) %>
-        </div>
+    <div class="comments">
 
-        <div class="comments">
-
-        </div>
-        <div class="comment-add">
-            <img class="avatar-small pull-left" src="/images/icons/user-avatar.png">
-            <div class="comment-add-buttom" role="button">Comentar...</div>
-        </div>
+    </div>
+    <div class="comment-add">
+        <img class="avatar-small pull-left" src="/images/icons/user-avatar.png">
+        <div class="comment-add-buttom" role="button">Comentar...</div>
     </div>
 </div>

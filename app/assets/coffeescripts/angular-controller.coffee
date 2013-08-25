@@ -12,6 +12,12 @@ weApp.config ["$httpProvider", (provider)->
 ]
 
 ###
+  Template Cache
+###
+weApp.run ($templateCache,$http)->
+  #$http.get 'angularjs/templates/post', {cache:$templateCache}
+
+###
   SERVICES
 ###
 weApp.factory 'getAuthenticityToken', ->
@@ -24,6 +30,7 @@ weApp.factory 'getAuthenticityToken', ->
 
 weApp.factory 'PostsResource', ['$resource', ($resource) ->
   PostsResource = $resource('/posts/:id.json', {
+    id: '@id'
   }, {
     # Define methods on the Station object
 
@@ -47,6 +54,47 @@ weApp.controller 'postsController',['$scope', '$http', 'PostsResource', ($scope 
 
   $scope.posts = []
 
+  $scope.init = (id)->
+    $scope.Post.id = id
+
+  $scope.up = ()->
+    console.log 'up'
+
+  $scope.down = ()->
+    console.log 'down'
+
+  $scope.share = ()->
+    console.log 'share'
+  $scope.edit = (event)->
+    event.preventDefault()
+    event.stopPropagation()
+    console.log $scope
+    console.log 'edit'
+
+  $scope.delete = (index,event)->
+    event.preventDefault()
+    event.stopPropagation()
+    console.log 'delete'
+    console.log new PostsResource { 'Post': $scope.posts[index] }
+    if confirm 'Permanently delete this post?'
+      $scope.posts[index].$delete()
+      $scope.posts.splice(index, 1);
+
+      ###
+      $http.delete("/posts/" + post._id + ".json",{
+          params: {
+            authenticity_token: getAuthenticityToken()
+          }
+        }).success( (data, status, headers, config) ->
+          if status == 200
+            console.log 'deleted'
+          console.log data
+          console.log status
+        ).error( (data, status, headers, config) ->
+            console.log data
+        )
+        ###
+
   $scope.load = ->
     posts = PostsResource.query ->
       $scope.posts = posts
@@ -60,42 +108,6 @@ weApp.controller 'postsController',['$scope', '$http', 'PostsResource', ($scope 
 
 weApp.controller 'postController',['$scope', '$http', 'getAuthenticityToken', ($scope , $http, getAuthenticityToken)->
 
-  $scope.init = (id)->
-    $scope.Post.id = id
-
-  $scope.up = ()->
-    console.log 'up'
-
-  $scope.down = ()->
-    console.log 'down'
-
-  $scope.share = ()->
-    console.log 'share'
-
-  $scope.edit = (event)->
-    event.preventDefault()
-    event.stopPropagation()
-    console.log $scope
-    console.log 'edit'
-
-  $scope.delete = (event)->
-    event.preventDefault()
-    event.stopPropagation()
-    console.log 'delete'
-    if confirm 'Permanently delete this post?'
-      $http.delete("/posts/" + $scope.Post.id + ".json",{
-          params: {
-            authenticity_token: getAuthenticityToken()
-          }
-
-        }).success( (data, status, headers, config) ->
-          if status == 200
-            console.log 'deleted'
-          console.log data
-          console.log status
-        ).error( (data, status, headers, config) ->
-            console.log data
-        )
 ]
 
 weApp.controller 'shareboxController',['$scope', '$http', 'getAuthenticityToken', 'PostsResource', ($scope , $http, getAuthenticityToken, PostsResource)->

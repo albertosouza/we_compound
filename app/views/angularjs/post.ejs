@@ -1,0 +1,32 @@
+<header class="clearfix post-header">
+    <a class="avatar thumbnail">
+        <img src="/images/icons/user-avatar.png">
+    </a>
+    <h4 class="username">
+        <a href="{{post.author.url}}">{{post.author.username}}</a>
+    </h4>
+    <span class="subject">
+        <a>Compartilhada publicamente</a>  -
+        <span class="reatedAt">{{post.createdAt}}</span>
+    </span>
+</header>
+<div class="content">{{post.content}}</div>
+<div class="footer">
+    <div class="actions">
+        <span class="social pull-left">
+            <a class="btn btn-mini" data-ng-click="up($event)"><i class="icon-thumbs-up"></i></a>
+            <a class="btn btn-mini" data-ng-click="down($event)"><i class="icon-thumbs-down"></i></a>
+        </span>
+
+        <a class="btn btn-mini" data-ng-click="share($event)"><i class="icon-share-alt"></i> Share</a>
+        <a href class="btn btn-mini" data-ng-click="edit($event)"><i class="icon-edit"></i> Edit</a>
+        <a href class="btn btn-mini btn-danger" data-ng-click="delete($index,$event)"><i class="icon-remove icon-white"></i> Delete</a>
+    </div>
+    <div class="comments">
+
+    </div>
+    <div class="comment-add">
+        <img class="avatar-small pull-left" src="/images/icons/user-avatar.png">
+        <div class="comment-add-buttom" role="button">Comentar...</div>
+    </div>
+</div>

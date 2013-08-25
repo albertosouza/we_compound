@@ -32,9 +32,11 @@ exports.routes = function (map) {
     // root or home route
     map.root('posts#index');
 
+    map.get('angularjs/templates/:name', 'angularjs#templates');
+
     // feel free to remove generic routes
-    map.all(':controller/:action');
-    map.all(':controller/:action/:id');
+    // map.all(':controller/:action');
+    // map.all(':controller/:action/:id');
 };
 
 // @TODO need to implement authorization logic and file for this
