@@ -2,7 +2,7 @@
   "name": "we",
   "version": "0.0.1",
   "author": {
-      "name": "Alberto Souza"
+    "name": "Alberto Souza"
   },
   "engines": [
     "node >= 0.8.0"
@@ -14,7 +14,6 @@
     "express": "~3.x",
     "compound": ">= 1.1.0",
     "jugglingdb": ">= 0.1.0",
-    "jugglingdb-mongodb": "latest",
     "coffee-script": ">= 1.1.1",
     "stylus": "latest",
     "seedjs": "latest",
@@ -33,10 +32,7 @@
     "connect-flash": "latest",
     "mongoose": "latest",
     "bcrypt": "latest",
-    "mv": "latest",
-    "connect-redis": "~1.4.5",
-    "redis": "~0.8.4",
-    "jugglingdb-redis": "0.0.2-2"
+    "mv": "latest"
   },
   "devDependencies": {
     "nodeunit": "*",
