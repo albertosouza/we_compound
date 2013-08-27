@@ -1,4 +1,5 @@
 module.exports = function (mongoose, compound) {
+
     // mongoose stuff
     var ObjectId = mongoose.Schema.Types.ObjectId;
 
@@ -31,8 +32,6 @@ module.exports = function (mongoose, compound) {
 
     List.modelName = 'List';
     compound.models.List = List;
-
-
 
 
     var Task = mongoose.model('Task', mongoose.Schema({
@@ -96,6 +95,7 @@ module.exports = function (mongoose, compound) {
     User.modelName = 'User';
     compound.models.User = User;
 
+    /* POST */
     var PostSchema = mongoose.Schema({
         content: String,
         createdAt: Date,
@@ -111,6 +111,7 @@ module.exports = function (mongoose, compound) {
 
     Post.modelName = 'Post';
     compound.models.Post = Post;
+
 
     var Image = mongoose.model('Image', mongoose.Schema({
         name: String,

@@ -12,8 +12,7 @@
 
         <div data-ng-repeat="post in posts" data-ng-include="'angularjs/templates/post'" class="post span5">
             <!-- fallback for non js -->
-            <% posts.forEach(function (post) { %>
-                <% include partials/post.ejs %>
+            <% posts.forEach(function (post) { %>                <% include partials/post.ejs %>
             <% }); %>
         </div>
     </div>

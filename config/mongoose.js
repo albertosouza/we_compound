@@ -16,5 +16,6 @@ exports.init = function (compound) {
       require(compound.root + '/db/schema')(mongoose, compound);
     }
 
+    compound.mongoose = mongoose;
 
 };
