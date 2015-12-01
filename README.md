@@ -1,4 +1,6 @@
-### UNSTABLE
+### UNSTABLE AND OLD protorype
+
+SEE [http://wejs.org](http://wejs.org)
 
 ### Welcome to We a Compound js based system ###
 
